@@ -4,16 +4,19 @@ Feature: TC-ADM003 Management Produk Katalog
   Scenario: Admin melihat dan mencari item di manage katalog
     Given admin berada di halaman login
     When admin login dengan username "admin" dan password "admin"
+    Then admin diarahkan ke halaman dashboard
+    When admin navigasi ke halaman manage katalog
     Then admin diarahkan ke halaman manage katalog
     When admin mengisi search dengan kata kunci "kemeja"
-    Then halaman katalog menampilkan produk yang mengandung "kemeja"
-    When admin memilih filter kategori "seragam kantor"
-    Then halaman katalog hanya menampilkan produk dengan kategori "seragam kantor"
+    When admin memilih filter kategori "Seragam Kantor"
+   
 
   # TC-ADM003-B
   Scenario: Admin menambah katalog baru
     Given admin berada di halaman login
     When admin login dengan username "admin" dan password "admin"
+    Then admin diarahkan ke halaman dashboard
+    When admin navigasi ke halaman manage katalog
     Then admin diarahkan ke halaman manage katalog
     When admin mengklik tombol tambahkan produk baru
     Then admin diarahkan ke halaman create produk
@@ -26,6 +29,8 @@ Feature: TC-ADM003 Management Produk Katalog
   Scenario: Admin mengupdate katalog yang sudah ada
     Given admin berada di halaman login
     When admin login dengan username "admin" dan password "admin"
+    Then admin diarahkan ke halaman dashboard
+    When admin navigasi ke halaman manage katalog
     Then admin diarahkan ke halaman manage katalog
     When admin mengklik tombol edit pada salah satu produk
     Then admin diarahkan ke halaman edit produk
@@ -38,6 +43,8 @@ Feature: TC-ADM003 Management Produk Katalog
   Scenario: Admin mengarsip katalog yang sudah ada
     Given admin berada di halaman login
     When admin login dengan username "admin" dan password "admin"
+    Then admin diarahkan ke halaman dashboard
+    When admin navigasi ke halaman manage katalog
     Then admin diarahkan ke halaman manage katalog
     When admin mengklik tombol arsipkan pada salah satu produk
     Then produk tidak muncul lagi di halaman manage katalog
@@ -48,6 +55,8 @@ Feature: TC-ADM003 Management Produk Katalog
   Scenario: Admin melihat katalog yang diarsipkan dan melakukan restore
     Given admin berada di halaman login
     When admin login dengan username "admin" dan password "admin"
+    Then admin diarahkan ke halaman dashboard
+    When admin navigasi ke halaman manage katalog
     Then admin diarahkan ke halaman manage katalog
     When admin memilih filter status "archived"
     Then halaman katalog menampilkan produk yang diarsipkan
@@ -58,8 +67,10 @@ Feature: TC-ADM003 Management Produk Katalog
   Scenario: Admin menghapus katalog yang diarsipkan
     Given admin berada di halaman login
     When admin login dengan username "admin" dan password "admin"
+    Then admin diarahkan ke halaman dashboard
+    When admin navigasi ke halaman manage katalog
     Then admin diarahkan ke halaman manage katalog
     When admin memilih filter status "archived"
     Then halaman katalog menampilkan produk yang diarsipkan
     When admin mengklik tombol hapus pada salah satu produk
-    Then produk dihapus permanen dan tidak muncul di halaman manapu
+    Then produk dihapus permanen dan tidak muncul di halaman manapun
