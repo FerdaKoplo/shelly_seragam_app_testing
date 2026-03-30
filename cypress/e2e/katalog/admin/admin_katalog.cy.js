@@ -2,21 +2,22 @@ import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 
 // ─── SHARED STEPS ───────────────────────────────────────────────────────────
 
-Given("admin berada di halaman login", () => {
-  cy.visit("/login");
-});
+// Given("admin berada di halaman login", () => {
+//   cy.visit("/login");
+// });
 
-When("admin login dengan username {string} dan password {string}", (username, password) => {
-  cy.get(':nth-child(1) > .flex > .flex-1').type(username);
-  cy.get("#passwordInput").type(password);
-  cy.get('button[type="submit"]').first().click();
-});
+// When("admin login dengan username {string} dan password {string}", (username, password) => {
+//   cy.get(':nth-child(1) > .flex > .flex-1').type(username);
+//   cy.get("#passwordInput").type(password);
+//   cy.get('button[type="submit"]').first().click();
+// });
 
-Then("admin diarahkan ke halaman dashboard", () => {
-  cy.url().should("include", "/admin/statistik-transaksi");
-});
+// Then("admin diarahkan ke halaman dashboard", () => {
+//   cy.url().should("include", "/admin/statistik-transaksi");
+// });
 
 When("admin navigasi ke halaman manage katalog", () => {
+  cy.loginAdmin();
   cy.visit("/admin/manage-katalog");
 });
 
@@ -31,7 +32,8 @@ Then("admin diarahkan kembali ke halaman manage katalog", () => {
 // ─── TC-ADM003-A : Search & Filter ──────────────────────────────────────────
 
 When("admin mengisi search dengan kata kunci {string}", (keyword) => {
-   cy.get('.flex-1 > .w-full').clear().type(keyword).type("{enter}"); 
+  cy.loginAdmin();
+  cy.get('.flex-1 > .w-full').clear().type(keyword).type("{enter}"); 
 });
 
 // Then("halaman katalog menampilkan produk yang mengandung {string}", (keyword) => {
