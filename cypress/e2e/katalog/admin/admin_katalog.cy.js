@@ -13,7 +13,7 @@ When("admin login dengan username {string} dan password {string}", (username, pa
 });
 
 Then("admin diarahkan ke halaman dashboard", () => {
-  cy.url().should("include", "/admin/manage-transaksi");
+  cy.url().should("include", "/admin/statistik-transaksi");
 });
 
 When("admin navigasi ke halaman manage katalog", () => {
