@@ -21,7 +21,7 @@ Given ("admin berada di halaman statistik transaksi", ()=>{
     cy.visit("/admin/statistik-transaksi")
 });
 When ("admin klik tombol logout", ()=>{
-    cy.get('.bg-neutral').click()
+    cy.get('[data-cy="logout-button"]').click()
 });
 Then ("admin harus diarahkan ke halaman login", ()=>{
     cy.url().should("include", "/login");

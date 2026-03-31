@@ -33,3 +33,13 @@ Cypress.Commands.add('loginAdmin', () => {
         cy.url().should("include", "/admin/statistik-transaksi")
     })
 })
+
+Cypress.Commands.add('loginPegawai', () => {
+    cy.session("admin-session", () => {
+        cy.visit("/login")
+        cy.get('#usernameInput').type("budi.santoso")
+        cy.get('#passwordInput').type("pegawai")
+        cy.get('.bg-neutral').click()
+        cy.url().should("include", "/admin/statistik-transaksi")
+    })
+})
