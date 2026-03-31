@@ -9,6 +9,8 @@ const {
 
 module.exports = defineConfig({
   e2e: {
+    numTestsKeptInMemory: 5, 
+    experimentalMemoryManagement: true,
     baseUrl: "http://127.0.0.1:8000/",
     setupNodeEvents: async (on, config) => {
       await addCucumberPreprocessorPlugin(on, config);

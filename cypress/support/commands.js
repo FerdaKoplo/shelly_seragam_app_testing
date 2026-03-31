@@ -35,11 +35,37 @@ Cypress.Commands.add('loginAdmin', () => {
 })
 
 Cypress.Commands.add('loginPegawai', () => {
-    cy.session("admin-session", () => {
+    cy.session("pegawai-session", () => {
         cy.visit("/login")
         cy.get('#usernameInput').type("budi.santoso")
         cy.get('#passwordInput').type("pegawai")
         cy.get('.bg-neutral').click()
-        cy.url().should("include", "/admin/statistik-transaksi")
+        cy.url().should("include", "/admin/manage-transaksi")
     })
 })
+
+
+// ─── Dialog Helper ────────────────────────────────────────────────────────────
+
+/**
+ * Automatically accepts the next browser confirm() dialog.
+ * Use before clicking a button that triggers window.confirm or onsubmit confirm.
+ *
+ * Usage:
+ *   cy.acceptConfirm();
+ *   cy.get('button.delete').click();
+ */
+Cypress.Commands.add("acceptConfirm", () => {
+  cy.on("window:confirm", () => true);
+});
+
+/**
+ * Automatically dismisses the next browser confirm() dialog.
+ *
+ * Usage:
+ *   cy.dismissConfirm();
+ *   cy.get('button.delete').click();
+ */
+Cypress.Commands.add("dismissConfirm", () => {
+  cy.on("window:confirm", () => false);
+});
