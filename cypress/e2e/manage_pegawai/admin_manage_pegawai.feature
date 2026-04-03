@@ -5,20 +5,6 @@ Feature: TC-ADM002 Management Data Pegawai (Admin)
     Given admin sudah login dan berada di halaman manage pegawai
     Then admin dapat melihat tabel daftar pegawai
 
-  # TC-ADM002-A-SEARCH: Mencari pegawai berdasarkan nama/username
-  Scenario: Admin mencari pegawai berdasarkan kata kunci
-    Given admin sudah login dan berada di halaman manage pegawai
-    When admin mengisi kolom pencarian dengan kata kunci "budi"
-    And admin menekan tombol filter
-    Then tabel menampilkan pegawai yang mengandung kata kunci "budi"
-
-  # TC-ADM002-A-SEARCH: Filter pegawai berdasarkan status
-  Scenario: Admin memfilter pegawai berdasarkan status
-    Given admin sudah login dan berada di halaman manage pegawai
-    When admin memilih filter status pegawai "aktif"
-    And admin menekan tombol filter
-    Then tabel hanya menampilkan pegawai dengan status "aktif"
-
   # TC-ADM002-B: Menambah pegawai baru
   Scenario: Admin berhasil menambahkan pegawai baru
     Given admin sudah login dan berada di halaman manage pegawai
@@ -26,6 +12,20 @@ Feature: TC-ADM002 Management Data Pegawai (Admin)
     And admin mengisi form pegawai dengan nama "Dewi Anggraini" username "dewi.anggraini" dan password "pegawai123"
     And admin mengklik tombol simpan
     Then pegawai baru "dewi.anggraini" muncul di daftar pegawai
+
+  # TC-ADM002-A-SEARCH: Mencari pegawai berdasarkan nama/username
+  Scenario: Admin mencari pegawai berdasarkan kata kunci
+    Given admin sudah login dan berada di halaman manage pegawai
+    When admin mengisi kolom pencarian dengan kata kunci "anggraini"
+    And admin menekan tombol filter
+    Then tabel menampilkan pegawai yang mengandung kata kunci "anggraini"
+
+  # TC-ADM002-A-SEARCH: Filter pegawai berdasarkan status
+  Scenario: Admin memfilter pegawai berdasarkan status
+    Given admin sudah login dan berada di halaman manage pegawai
+    When admin memilih filter status pegawai "Aktif"
+    And admin menekan tombol filter
+    Then tabel hanya menampilkan pegawai dengan status "Active"
 
   # TC-ADM002-B-NEG: Menambah pegawai dengan form tidak lengkap
   Scenario: Admin gagal menambahkan pegawai karena form tidak lengkap
@@ -39,7 +39,7 @@ Feature: TC-ADM002 Management Data Pegawai (Admin)
     Given admin sudah login dan berada di halaman manage pegawai
     And terdapat data pegawai di dalam daftar
     When admin mengklik tombol edit pada pegawai pertama
-    And admin mengubah nama pegawai menjadi "Budi Santoso Updated"
+    And admin mengubah nama pegawai menjadi "Dewi Anggraini Updated"
     And admin mengklik tombol simpan
     Then data pegawai berhasil diperbarui di daftar
 
@@ -48,7 +48,7 @@ Feature: TC-ADM002 Management Data Pegawai (Admin)
     Given admin sudah login dan berada di halaman manage pegawai
     And terdapat data pegawai di dalam daftar
     When admin mengklik tombol edit pada pegawai pertama
-    And admin mengubah status pegawai menjadi "non-aktif"
+    And admin mengubah status pegawai menjadi "Inactive"
     And admin mengklik tombol simpan
     Then status pegawai berhasil diperbarui
 
