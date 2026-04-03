@@ -31,7 +31,7 @@ Then("admin diarahkan kembali ke halaman manage katalog", () => {
 // ─── TC-ADM003-A : Search & Filter ──────────────────────────────────────────
 
 When("admin mengisi search dengan kata kunci {string}", (keyword) => {
-   cy.get('.flex-1 > .w-full').clear().type(keyword).type("{enter}"); 
+  cy.get('.flex-1 > .w-full').clear().type(keyword).type("{enter}");
 });
 
 // Then("halaman katalog menampilkan produk yang mengandung {string}", (keyword) => {
@@ -81,21 +81,43 @@ When("admin mengklik tombol tambahkan produk baru", () => {
 
 Then("admin diarahkan ke halaman create produk", () => {
   cy.url().should("include", "/admin/manage-katalog/create");
+  cy.intercept('POST', '/admin/manage-katalog').as('storeProduct');
 });
 
 When("admin mengisi form produk baru dengan data valid", () => {
+
+  cy.get('.gap-2 > .relative > .w-full').type("test deskripsi");
+  cy.get('.gap-2 > :nth-child(2) > .w-full').type("Seragam Kantor");
   cy.get('input[name="nama_produk"]').type("Kemeja Putih Test");
   cy.get('input[name="harga"]').type("150000");
   cy.get('input[name="stok"]').type("10");
-  cy.get('textarea[name="deskripsi"]').type("Deskripsi produk test");
-  cy.get('input[name="kategori"]').type("seragam kantor");
+
+  // Upload image
+  cy.get('input[name="fotos[]"]').selectFile(
+    "cypress/fixtures/test.jpg",
+    { force: true }
+  );
+
+  // ── Ukuran modal ──
+  cy.contains("Tambahkan Variasi Ukuran").click();
+  cy.contains("button", "L").click({ force: true });
+  cy.contains("button", "Simpan").click({ force: true });
+  cy.wait(500);
+
+  // ── Warna modal ──
+  cy.contains("Tambahkan Variasi Warna").click({ force: true });
+  cy.contains("h3", "Warna").should("be.visible");
+  cy.get('[style="background-color: #261C1A"]').click({ force: true });
+  cy.get('.mt-6 > .w-full').click({ force: true });
 });
 
 When("admin mengklik tombol tambahkan produk", () => {
-  cy.contains("Tambahkan Produk").click();
+  cy.get('#submitProduk').click();
+  // cy.contains("Tambahkan Produk").click();
 });
 
 Then("produk baru muncul di halaman manage katalog", () => {
+  cy.get('.flex-1 > .w-full').type("Kemeja Putih Test").type("{enter}");
   cy.contains("Kemeja Putih Test").should("be.visible");
 });
 
