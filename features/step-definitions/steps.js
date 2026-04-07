@@ -1,23 +1,29 @@
 const { Given, When, Then } = require('@wdio/cucumber-framework');
-const { expect, $ } = require('@wdio/globals')
+const { expect } = require('@wdio/globals');
 
 const LoginPage = require('../pageobjects/login.page');
-const SecurePage = require('../pageobjects/secure.page');
+// const AdminDashboardPage = require('../pageobjects/admin.dashboard.page');
 
-const pages = {
-    login: LoginPage
-}
-
-Given(/^I am on the (\w+) page$/, async (page) => {
-    await pages[page].open()
+Given('admin berada di halaman login', async () => {
+  await LoginPage.open();
 });
 
-When(/^I login with (\w+) and (.+)$/, async (username, password) => {
-    await LoginPage.login(username, password)
+When(
+  'admin mengisi username {string} dan password {string}',
+  async (username, password) => {
+    await LoginPage.login(username, password);
+  }
+);
+
+When('admin klik tombol login', async () => {
+  await LoginPage.submit();
 });
 
-Then(/^I should see a flash message saying (.*)$/, async (message) => {
-    await expect(SecurePage.flashAlert).toBeExisting();
-    await expect(SecurePage.flashAlert).toHaveText(expect.stringContaining(message));
+Then('admin diarahkan ke halaman statistik transaksi', async () => {
+  await expect(browser).toHaveUrlContaining('/admin/statistik-transaksi');
 });
 
+Then('admin tetap di halaman login dan melihat pesan error', async () => {
+  await expect(browser).toHaveUrlContaining('/login');
+  await expect(LoginPage.errorMessage).toBeDisplayed();
+});

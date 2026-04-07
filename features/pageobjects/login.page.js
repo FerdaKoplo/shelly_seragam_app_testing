@@ -1,41 +1,39 @@
-const { $ } = require('@wdio/globals')
+const { $ } = require('@wdio/globals');
 const Page = require('./page');
 
-/**
- * sub page containing specific selectors and methods for a specific page
- */
 class LoginPage extends Page {
-    /**
-     * define selectors using getter methods
-     */
-    get inputUsername () {
-        return $('#username');
-    }
+  get usernameInput() { return $('#usernameInput').isExisting().then(exists => exists ? $('#usernameInput') : $('[name="username"]')); }
+  get passwordInput() { return $('#passwordInput').isExisting().then(exists => exists ? $('#passwordInput') : $('[name="password"]')); }
 
-    get inputPassword () {
-        return $('#password');
-    }
+  get loginButton() { return $('#btnLogin'); }
+  get loginButtonFallback() { return $('button[type="submit"]'); }
 
-    get btnSubmit () {
-        return $('button[type="submit"]');
-    }
+  get errorMessage() { return $('.absolute > .font-inter'); }
 
-    /**
-     * a method to encapsule automation code to interact with the page
-     * e.g. to login using username and password
-     */
-    async login (username, password) {
-        await this.inputUsername.setValue(username);
-        await this.inputPassword.setValue(password);
-        await this.btnSubmit.click();
-    }
+  async open() {
+    return super.open('login');
+  }
 
-    /**
-     * overwrite specific options to adapt it to page object
-     */
-    open () {
-        return super.open('login');
+  async login(username, password) {
+    const userEl = await (await $('#usernameInput').isExisting() ? $('#usernameInput') : $('[name="username"]'));
+    const passEl = await (await $('#passwordInput').isExisting() ? $('#passwordInput') : $('[name="password"]'));
+
+    await userEl.waitForExist({ timeout: 10000 });
+    await userEl.setValue(username);
+
+    await passEl.waitForExist({ timeout: 10000 });
+    await passEl.setValue(password);
+  }
+
+  async submit() {
+    if (await this.loginButton.isExisting()) {
+      await this.loginButton.click();
+    } else if (await $('.bg-neutral').isExisting()) {
+      await $('.bg-neutral').click();
+    } else {
+      await this.loginButtonFallback.click();
     }
+  }
 }
 
 module.exports = new LoginPage();
