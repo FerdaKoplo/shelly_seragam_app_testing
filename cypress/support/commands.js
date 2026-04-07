@@ -69,3 +69,11 @@ Cypress.Commands.add("acceptConfirm", () => {
 Cypress.Commands.add("dismissConfirm", () => {
   cy.on("window:confirm", () => false);
 });
+
+Cypress.Commands.add("verifyNotification", (message) => {
+  cy.get('#notificationOverlay > .relative').should('be.visible');
+  cy.contains(message).should("be.visible");
+  cy.get('#btnDismiss').click();
+});
+
+

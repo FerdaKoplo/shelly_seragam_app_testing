@@ -4,9 +4,8 @@ Feature: TC-ADM003 Management Produk Katalog
   Scenario: Admin melihat dan mencari item di manage katalog
     When admin navigasi ke halaman manage katalog
     Then admin diarahkan ke halaman manage katalog
-    When admin mengisi search dengan kata kunci "kemeja"
-    When admin memilih filter kategori "Seragam Kantor"
-   
+    When admin mengisi search dengan kata kunci "Kemeja"
+    When admin memilih filter kategori "Atasan"
 
   # TC-ADM003-B
   Scenario: Admin menambah katalog baru
@@ -17,6 +16,7 @@ Feature: TC-ADM003 Management Produk Katalog
     When admin mengisi form produk baru dengan data valid
     And admin mengklik tombol tambahkan produk
     Then admin diarahkan kembali ke halaman manage katalog
+    When admin mengisi search dengan kata kunci "Kemeja"
     And produk baru muncul di halaman manage katalog
 
   # TC-ADM003-C
