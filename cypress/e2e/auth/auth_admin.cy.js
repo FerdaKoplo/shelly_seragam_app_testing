@@ -9,7 +9,7 @@ When ("admin mengisi username {string} dan password {string}", (username, passwo
     cy.get('#passwordInput').type(password)
 });
 When ("admin klik tombol login", ()=>{
-    cy.get('.bg-neutral').click()
+    cy.get('#btnLogin').click()
 });
 Then ("admin harus diarahkan ke halaman dashboard", ()=>{
     cy.url().should("include", "/admin/statistik-transaksi");

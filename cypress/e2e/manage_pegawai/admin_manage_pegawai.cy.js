@@ -103,7 +103,6 @@ Then("data pegawai berhasil diperbarui di daftar", () => {
 });
 
 // ─── TC-ADM002-D : Ubah status pegawai ───────────────────────────────────────
-
 When("admin mengubah status pegawai menjadi {string}", (status) => {
   if (status === "non-aktif") {
     cy.contains("button", "Non Aktif").click();
@@ -134,5 +133,5 @@ When("admin mengkonfirmasi penghapusan", () => {
 
 Then("pegawai berhasil dihapus dari daftar", () => {
   cy.url().should("include", "/admin/manage-pegawai");
-  
+  cy.get("tbody").should("not.contain", "temp_pegawai");
 });

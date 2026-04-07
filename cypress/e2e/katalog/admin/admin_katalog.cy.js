@@ -17,7 +17,7 @@ Then("admin diarahkan kembali ke halaman manage katalog", () => {
 
 When("admin mengisi search dengan kata kunci {string}", (keyword) => {
   cy.loginAdmin();
-  cy.get('.flex-1 > .w-full').clear().type(keyword).type("{enter}"); 
+  cy.get('#searchInput').clear().type(keyword).type("{enter}"); 
 });
 
 // Then("halaman katalog menampilkan produk yang mengandung {string}", (keyword) => {
