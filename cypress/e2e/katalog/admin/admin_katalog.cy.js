@@ -60,22 +60,22 @@ When("admin mengisi form produk baru dengan data valid", () => {
 When("admin mengklik tombol tambahkan produk", () => {
   // Submit button has id="submitProduk" in create.blade.php
   cy.get("#submitProduk").click();
-  
-});
 
-Then("produk baru muncul di halaman manage katalog", () => {
+});
+Then("admin melihat pop up produk katalog berhasil ditambahkan", () => {
   cy.get('#notificationOverlay > .relative').should('be.visible');
   cy.contains("Produk berhasil ditambahkan").should("be.visible");
   cy.get('#btnDismiss > .font-inter').click();
-  
+});
+
+Then("produk baru muncul di halaman manage katalog", () => {
   cy.contains("Kemeja Putih Formal Pria").should("be.visible");
 });
 
 // ─── TC-ADM003-C : Update Produk ─────────────────────────────────────────────
 
 When("admin mengklik tombol edit pada salah satu produk", () => {
-  // Clicks the edit anchor on the first non-archived product card
-  cy.get('[data-cy="produk-card"][data-archived="false"]')
+  cy.get('[data-cy="produk-card"]')
     .first()
     .find('[data-cy="btn-edit-produk"]')
     .click();
@@ -108,27 +108,31 @@ Then("data produk berhasil diperbarui", () => {
 
 When("admin mengklik tombol arsipkan pada salah satu produk", () => {
   // Store the product name before archiving so we can verify it's gone
-  cy.get('[data-cy="produk-card"][data-archived="false"]')
+  cy.get('[data-cy="produk-card"]')
     .first()
     .find('[data-cy="produk-nama"]')
     .invoke("text")
     .as("namaProdukDiarsip");
 
   // Click the archive icon on the first active product card
-  cy.get('[data-cy="produk-card"][data-archived="false"]')
+  cy.get('[data-cy="produk-card"]')
     .first()
     .find('[data-cy="btn-archive-produk"]')
     .click();
 
   // The archive action opens a confirm modal — accept it
-  cy.acceptConfirm();
+  cy.get('#archiveModalConfirm button[type="submit"]')
+    .should('be.visible')
+    .click();
+  cy.verifyNotification("Produk berhasil diarsipkan");
 });
 
 Then("produk tidak muncul lagi di halaman manage katalog", () => {
+  
   // After archiving we stay on the same page (default view shows non-archived)
   cy.url().should("include", "/admin/manage-katalog");
   // The page should no longer show the archived product in the active list
-  cy.get('[data-cy="produk-card"][data-archived="false"]').then(($cards) => {
+  cy.get('[data-cy="produk-card"]').then(($cards) => {
     // At minimum, the archive action completed and we're on the right page
     expect($cards.length).to.be.gte(0);
   });
@@ -162,6 +166,7 @@ Then("halaman katalog menampilkan produk yang diarsipkan", () => {
 When("admin mengklik tombol pulihkan pada salah satu produk", () => {
   // The restore button is inside a POST form — clicking submits it directly
   cy.get('[data-cy="btn-restore-produk"]').first().click();
+  cy.verifyNotification("Produk dipulihkan");
 });
 
 Then("produk kembali muncul di halaman manage katalog", () => {
@@ -174,8 +179,12 @@ Then("produk kembali muncul di halaman manage katalog", () => {
 
 When("admin mengklik tombol hapus pada salah satu produk", () => {
   // Delete button is only visible on archived cards; must be in archived filter view
-  cy.acceptConfirm();
   cy.get('[data-cy="btn-delete-produk"]').first().click();
+  cy.get('#deleteModalConfirm')
+    .should('be.visible')
+    .click();
+
+  cy.verifyNotification("Produk berhasil dihapus");
 });
 
 Then("produk dihapus permanen dan tidak muncul di halaman manapun", () => {
