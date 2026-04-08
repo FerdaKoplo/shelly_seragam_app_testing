@@ -98,10 +98,11 @@ When("admin mengklik tombol simpan perubahan", () => {
   cy.get("#btn-simpan-perubahan").click();
 });
 
-Then("data produk berhasil diperbarui", () => {
+Then("admin memverifikasi data produk berhasil diperbarui", () => {
   // Redirected back to index and the updated name is visible
   cy.url().should("include", "/admin/manage-katalog");
   cy.contains("Polo Shirt Bordir").should("be.visible");
+  
 });
 
 // ─── TC-ADM003-D : Arsip Produk ──────────────────────────────────────────────

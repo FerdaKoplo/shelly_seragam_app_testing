@@ -28,7 +28,7 @@ Feature: TC-ADM003 Management Produk Katalog
     When admin mengubah data produk dengan data baru
     And admin mengklik tombol simpan perubahan
     Then admin diarahkan kembali ke halaman manage katalog
-    And data produk berhasil diperbarui
+    And admin memverifikasi data produk berhasil diperbarui
 
   # TC-ADM003-D
   Scenario: Admin mengarsip katalog yang sudah ada
