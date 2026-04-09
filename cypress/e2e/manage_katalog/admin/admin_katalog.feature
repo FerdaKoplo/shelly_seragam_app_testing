@@ -43,6 +43,11 @@ Feature: TC-ADM003 Management Produk Katalog
   Scenario: Admin melihat katalog yang diarsipkan dan melakukan restore
     When admin navigasi ke halaman manage katalog
     Then admin diarahkan ke halaman manage katalog
+    When admin navigasi ke halaman manage katalog
+    Then admin diarahkan ke halaman manage katalog
+    When admin mengklik tombol arsipkan pada salah satu produk
+    Then produk tidak muncul lagi di halaman manage katalog
+    When admin memilih filter status "archived"
     When admin memilih filter status "archived"
     Then halaman katalog menampilkan produk yang diarsipkan
     When admin mengklik tombol pulihkan pada salah satu produk
@@ -51,6 +56,11 @@ Feature: TC-ADM003 Management Produk Katalog
   # TC-ADM003-F
   Scenario: Admin menghapus katalog yang diarsipkan
     When admin navigasi ke halaman manage katalog
+    When admin navigasi ke halaman manage katalog
+    Then admin diarahkan ke halaman manage katalog
+    When admin mengklik tombol arsipkan pada salah satu produk
+    Then produk tidak muncul lagi di halaman manage katalog
+    When admin memilih filter status "archived"
     Then admin diarahkan ke halaman manage katalog
     When admin memilih filter status "archived"
     Then halaman katalog menampilkan produk yang diarsipkan

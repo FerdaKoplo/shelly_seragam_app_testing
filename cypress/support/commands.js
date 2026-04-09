@@ -24,6 +24,7 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
+// AUTH HELPER
 Cypress.Commands.add('loginAdmin', () => {
     cy.session("admin-session", () => {
         cy.visit("/login")
@@ -46,26 +47,10 @@ Cypress.Commands.add('loginPegawai', () => {
 
 
 // ─── Dialog Helper ────────────────────────────────────────────────────────────
-
-/**
- * Automatically accepts the next browser confirm() dialog.
- * Use before clicking a button that triggers window.confirm or onsubmit confirm.
- *
- * Usage:
- *   cy.acceptConfirm();
- *   cy.get('button.delete').click();
- */
 Cypress.Commands.add("acceptConfirm", () => {
   cy.on("window:confirm", () => true);
 });
 
-/**
- * Automatically dismisses the next browser confirm() dialog.
- *
- * Usage:
- *   cy.dismissConfirm();
- *   cy.get('button.delete').click();
- */
 Cypress.Commands.add("dismissConfirm", () => {
   cy.on("window:confirm", () => false);
 });

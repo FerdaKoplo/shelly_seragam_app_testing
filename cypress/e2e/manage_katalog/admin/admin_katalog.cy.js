@@ -122,7 +122,7 @@ When("admin mengklik tombol arsipkan pada salah satu produk", () => {
     .click();
 
   // The archive action opens a confirm modal — accept it
-  cy.get('#archiveModalConfirm button[type="submit"]')
+  cy.get('#archiveModalConfirm')
     .should('be.visible')
     .click();
   cy.verifyNotification("Produk berhasil diarsipkan");

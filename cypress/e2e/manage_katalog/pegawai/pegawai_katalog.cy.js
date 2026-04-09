@@ -64,8 +64,9 @@ Then("produk baru muncul di halaman katalog", () => {
 // ─── Update Produk ─────────────────────────────────────
 
 When("pegawai mengklik tombol edit pada produk", () => {
+  cy.get("#searchInput").clear().type("Celana").type("{enter}");
   cy.get('[data-cy="produk-card"]')
-    .contains("Polo Shirt Bordir")
+    .contains("Celana Panjang Formal Pria")
     .parents('[data-cy="produk-card"]')
     .find('[data-cy="btn-edit-produk"]')
     .click();
@@ -77,9 +78,12 @@ Then("pegawai diarahkan ke halaman edit produk", () => {
 
 When("pegawai mengubah data produk", () => {
   cy.get('input[name="harga"]').clear().type("115000");
+  cy.get('input[name="nama_produk"]')
+  .clear()
+  .type("Celana Panjang Hitam");
   cy.get('textarea[name="deskripsi"]')
     .clear()
-    .type("Polo shirt bahan PE premium, bordir logo");
+    .type("Celana Pendek");
 });
 
 When("pegawai mengklik tombol simpan perubahan", () => {
@@ -89,4 +93,6 @@ When("pegawai mengklik tombol simpan perubahan", () => {
 Then("pegawai memverifikasi data produk berhasil diperbarui", () => {
   cy.url().should("include", "/admin/manage-katalog");
   cy.verifyNotification("Produk berhasil diperbarui!");
+  cy.get("#searchInput").clear().type("Celana Panjang Hitam").type("{enter}");
+  cy.contains("Celana Panjang Hitam").should("be.visible");
 });
