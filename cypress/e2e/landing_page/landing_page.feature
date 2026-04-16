@@ -1,6 +1,6 @@
-Feature: Landing Page Visibility
+Feature: Landing Page Test
 
-  Scenario: All main components are visible on landing page
+Scenario: All main components are visible on landing page
     Given guest open the landing page
     Then guest should see the hero section
     And guest should see the stats section
