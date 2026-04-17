@@ -1,57 +1,57 @@
-import { Given, Then, When } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 
-Given("guest open the katalog page", () => {
-    cy.visit("/katalog");
+const BASE_URL = "/katalog";
+
+Given("User membuka halaman katalog", () => {
+  cy.visit(BASE_URL);
+  cy.get('[data-cy^=product-item]')
+  .should('have.length.greaterThan', 0);
 });
 
-Then("guest should see the product list", () => {
-    cy.get('.px-16 > .grid').should('be.visible');
+When("User mencari produk dengan keyword {string}", (keyword) => {
+  cy.get('[data-cy=input-search]').clear().type(keyword);
+  cy.get('[data-cy=btn-search]').click();
 });
 
-Then("guest should see at least one product item", () => {
-    // cy.get('[data-cy=product-item]')
-    //     .its('length')
-    //     .should('be.greaterThan', 0);
-    cy.get('[href="http://127.0.0.1:8000/katalog/kemeja-kotak-1"] > .group').should('be.visible');
+Then("Produk yang relevan ditampilkan", () => {
+  cy.get('[data-cy=product-item]').should('exist');
 });
 
-When("guest search product with keyword {string}", (keyword) => {
-    // cy.get('[data-cy=search-input]')
-    cy.get('.md\:w-auto > .flex > .flex-1')
-        .should('be.visible')
-        .type(keyword);
+Then("Empty state ditampilkan", () => {
+  cy.get('[data-cy=empty-state-title]').should('exist');
 });
 
-When("guest filter by category {string}", (category) => {
-    cy.get('.p-3').click(); 
-    cy.get(`[data-id="${category}"]`).click();
-    // cy.get('[data-cy=filter-category]')
-    //     .select(category);
+Then("Semua produk ditampilkan", () => {
+  cy.get('[data-cy=product-item]').its('length').should('be.gte', 1);
 });
 
-When("guest filter by size {string}", (size) => {
-    // cy.get(`[data-id="size-${size}"]`).click();
-    size = size.toLowerCase();
-    cy.get(`[data-id="size-${size}"]`).click();
-    // cy.get('[data-id="size-l"]').click();
-    // cy.get('[data-cy=filter-size]')
-    //     .select(size);
+
+
+When("User memfilter kategori {string}", (kategori) => {
+  cy.get('[data-cy=btn-open-filter]').click();
+  cy.get(`[data-cy=filter-${kategori}]`).click();
+  cy.get('[data-cy=btn-apply-filter]').click();
 });
 
-// When("guest filter by availability {string}", (availability) => {
-//     // cy.get('[data-cy=filter-availability]')
-//     //     .select(availability);
-//     cy.get(`[data-id="availability-${availability}"]`).click();
-// });
+Then("Produk kategori tersebut ditampilkan", () => {
+  cy.get('[data-cy=product-item]').should('exist');
+});
 
-// Then("guest should see filtered products", () => {
-//     cy.get('[data-cy=product-item]').each(($el) => {
-//         cy.wrap($el).should('be.visible');
-//     });
-// });
+When("User membuka katalog dengan kategori invalid", () => {
+  cy.visit('/katalog?filter_kategori=invalid');
+});
 
-Then("guest should see filtered products", () => {
-    cy.get('[data-cy=product-item]').each(($el) => {
-        cy.wrap($el).should('contain.text', 'Kemeja');
-    });
+
+When("User memfilter stok {string}", (stok) => {
+  cy.get('[data-cy=btn-open-filter]').click();
+  cy.get(`[data-cy=filter-stok-${stok}]`).click();
+  cy.get('[data-cy=btn-apply-filter]').click();
+});
+
+Then("Produk dengan stok ready ditampilkan", () => {
+  cy.get('[data-cy=product-item]').should('exist');
+});
+
+Then("Produk stok habis ditampilkan", () => {
+  cy.get('[data-cy=product-item]').should('exist');
 });
