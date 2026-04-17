@@ -1,6 +1,6 @@
 Feature: Halaman Produk Katalog Test
 
-Scenario: Customer dapat melihat dan mencari produk di halaman katalog
+Scenario: Customer dapat melihat detail produk katalog
     Given guest open the katalog page
     Then guest should see the product list
     And guest should see at least one product item
@@ -9,5 +9,3 @@ Scenario: Customer dapat melihat dan mencari produk di halaman katalog
     And guest filter by size "L"
     And guest filter by availability "Tersedia"
     Then guest should see filtered products
-
-    
