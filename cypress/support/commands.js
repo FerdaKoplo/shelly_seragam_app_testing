@@ -61,4 +61,9 @@ Cypress.Commands.add("verifyNotification", (message) => {
   cy.get('#btnDismiss').click();
 });
 
+Cypress.Commands.add("verifyModal", () => {
+  cy.get('[data-cy=modal-overlay]').should('be.visible');
+  cy.get('[data-cy=close-modal]').click();
+});
+
 
