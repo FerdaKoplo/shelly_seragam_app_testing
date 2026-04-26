@@ -9,8 +9,8 @@ Feature: Kustomisasi Produk Seragam
   Scenario: TC-CUS005 - Submit form kustomisasi berhasil
     When User memilih kategori "Bundle"
     And User memilih kombinasi "2"
-    And User memilih material "Drill" pada kombinasi 1
-    And User memilih material "Kanvas" pada kombinasi 2
+    And User memilih material "Standar" pada kombinasi 1
+    And User memilih material "Katun" pada kombinasi 2
     And User memilih bordir "2"
     And User memilih ukuran "M"
     And User mengisi quantity "20"
@@ -94,7 +94,7 @@ Feature: Kustomisasi Produk Seragam
 
   Scenario: TC-CUS005-EQP-04 - Upload format invalid
     When User upload file "test.mp4"
-    Then Sistem menolak file
+    Then File ditolak
 
   # ========================
   # DECISION TABLE - CATEGORY
