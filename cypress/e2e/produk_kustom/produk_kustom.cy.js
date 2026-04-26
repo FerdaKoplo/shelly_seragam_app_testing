@@ -35,7 +35,7 @@ function uploadFile(file) {
 // GIVEN
 // ========================
 Given("User membuka halaman kustomisasi", () => {
-    cy.visit('/kustomisasi');
+    cy.visit('/kustom');
 });
 
 // ========================
@@ -46,24 +46,28 @@ When("User memilih kategori {string}", (kategori) => {
 });
 
 When("User memilih kombinasi {string}", (n) => {
-    cy.get(`[data-cy=combination-${n}]`).click();
+    cy.get(`[data-cy=combination-${n}]`).first().click();
 });
 
 When("User memilih material {string} pada kombinasi {int}", (material, index) => {
-    cy.get(`[data-cy=material-${index}-${material.toLowerCase()}]`).click();
+    cy.get(`[data-cy=material-${index}-${material.toLowerCase()}]`).first().click();
 });
 
 When("User memilih bordir {string}", (n) => {
-    cy.get(`[data-cy=bordir-${n}]`).click();
+    cy.get(`[data-cy=bordir-${n}]`).first().click();
 });
 
 When("User memilih ukuran {string}", (size) => {
-    cy.get(`[data-cy=size-${size.toLowerCase()}]`).click();
+    cy.get(`[data-cy=size-${size}]`).click();
 });
 
-When("User mengisi quantity {string}", (val) => {
-    cy.get('[data-cy=qty-input]').clear().type(val);
+When("User mengurangi quantity di bawah 1", () => {
+    cy.get('[data-cy=qty-decrement]').click();
 });
+  
+Then("Quantity tetap {int}", (value) => {
+    cy.get('[data-cy=qty-input]').should('have.value', value);
+  });
 
 When("User klik tombol minus", () => {
     cy.get('[data-cy=qty-decrement]').click();
@@ -95,11 +99,14 @@ Then("Sistem memproses pesanan kustom", () => {
     cy.url().should('include', '/checkout');
 });
 
-Then("Quantity tetap {string}", (val) => {
-    cy.get('[data-cy=qty-input]').should('have.value', val);
-});
 
-Then("Quantity menjadi {string}", (val) => {
+When("User menambah quantity hingga {int}", (value) => {
+    for (let i = 1; i < value; i++) {
+      cy.get('[data-cy=qty-increment]').click();
+    }
+  });
+
+Then("Quantity adalah {int}", (val) => {
     cy.get('[data-cy=qty-input]').should('have.value', val);
 });
 
@@ -118,7 +125,7 @@ Then("File ditolak", () => {
     cy.get('[data-cy=warnings]').should('be.visible');
 });
 
-Then("Hanya {int} card material tampil", (count) => {
+Then("{int} card material tampil", (count) => {
     cy.get('[data-cy^=material-]').should('have.length.at.least', count);
 });
 
