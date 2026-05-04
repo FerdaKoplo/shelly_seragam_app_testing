@@ -97,10 +97,12 @@ Then("produk baru muncul di halaman manage katalog", () => {
 // ─── TC-ADM003-C : Update Produk ─────────────────────────────────────────────
 
 When("admin mengklik tombol edit pada salah satu produk", () => {
-  cy.get('[data-cy="produk-card"]')
+  cy.get('[data-cy="produk-card"][data-archived="false"]')
+    .should('have.length.greaterThan', 0)
     .first()
-    .find('[data-cy="btn-edit-produk"]')
-    .click();
+    .within(() => {
+      cy.get('[data-cy="btn-edit-produk"]').click();
+    });
 });
 
 Then("admin diarahkan ke halaman edit produk", () => {
@@ -124,7 +126,7 @@ Then("admin memverifikasi data produk berhasil diperbarui", () => {
   // Redirected back to index and the updated name is visible
   cy.url().should("include", "/admin/manage-katalog");
   cy.contains("Polo Shirt Bordir").should("be.visible");
-  
+
 });
 
 // ─── TC-ADM003-D : Arsip Produk ──────────────────────────────────────────────
@@ -138,10 +140,15 @@ When("admin mengklik tombol arsipkan pada salah satu produk", () => {
     .as("namaProdukDiarsip");
 
   // Click the archive icon on the first active product card
-  cy.get('[data-cy="produk-card"]')
+  cy.get('[data-cy="produk-card"][data-archived="false"]')
     .first()
-    .find('[data-cy="btn-archive-produk"]')
-    .click();
+    .within(() => {
+      cy.get('[data-cy="btn-archive-produk"]').click();
+    });
+  // cy.get('[data-cy="produk-card"]')
+  //   .first()
+  //   .find('[data-cy="btn-archive-produk"]')
+  //   .click();
 
   // The archive action opens a confirm modal — accept it
   cy.get('#archiveModalConfirm')
@@ -151,7 +158,7 @@ When("admin mengklik tombol arsipkan pada salah satu produk", () => {
 });
 
 Then("produk tidak muncul lagi di halaman manage katalog", () => {
-  
+
   // After archiving we stay on the same page (default view shows non-archived)
   cy.url().should("include", "/admin/manage-katalog");
   // The page should no longer show the archived product in the active list
@@ -188,7 +195,12 @@ Then("halaman katalog menampilkan produk yang diarsipkan", () => {
 
 When("admin mengklik tombol pulihkan pada salah satu produk", () => {
   // The restore button is inside a POST form — clicking submits it directly
-  cy.get('[data-cy="btn-restore-produk"]').first().click();
+  // cy.get('[data-cy="btn-restore-produk"]').first().click();
+  cy.get('[data-cy="produk-card"][data-archived="true"]')
+    .first()
+    .within(() => {
+      cy.get('[data-cy="btn-restore-produk"]').click();
+    });
   cy.verifyNotification("Produk dipulihkan");
 });
 
@@ -202,7 +214,12 @@ Then("produk kembali muncul di halaman manage katalog", () => {
 
 When("admin mengklik tombol hapus pada salah satu produk", () => {
   // Delete button is only visible on archived cards; must be in archived filter view
-  cy.get('[data-cy="btn-delete-produk"]').first().click();
+  cy.get('[data-cy="produk-card"][data-archived="true"]')
+    .first()
+    .within(() => {
+      cy.get('[data-cy="btn-delete-produk"]').click();
+    });
+  // cy.get('[data-cy="btn-delete-produk"]').first().click();
   cy.get('#deleteModalConfirm')
     .should('be.visible')
     .click();
