@@ -65,7 +65,7 @@ When("User mengurangi quantity di bawah 1", () => {
     cy.get('[data-cy=qty-decrement]').click();
 });
   
-Then("Quantity tetap {int}", (value) => {
+Then("Quantity adalah {int}", (value) => {
     cy.get('[data-cy=qty-input]').should('have.value', value);
   });
 

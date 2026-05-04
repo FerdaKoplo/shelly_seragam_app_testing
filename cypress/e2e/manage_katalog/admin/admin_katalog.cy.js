@@ -57,6 +57,28 @@ When("admin mengisi form produk baru dengan data valid", () => {
   cy.get('input[name="kategori"]').type("Atasan");
 });
 
+When("admin menambahkan variasi ukuran", () => {
+  // open modal
+  cy.get('[data-cy="open-size-modal"]').click();
+
+  // make sure modal is visible
+  cy.get('[data-cy="modal-size-variation"]').should('be.visible');
+
+  // choose preset (optional, but cleaner)
+  cy.get('[data-cy="preset-L"]').click();
+
+  // // or manually type 
+  // cy.get('[data-cy="input-size-name"]').clear().type('L');
+  // cy.get('[data-cy="input-sleeve"]').clear().type('90');
+  // cy.get('[data-cy="input-chest"]').clear().type('70');
+
+  // submit
+  cy.get('[data-cy="submit-size"]').click();
+
+  // assert variation added to UI
+  cy.get('[data-cy="size-item"]').should('contain', 'L');
+});
+
 When("admin mengklik tombol tambahkan produk", () => {
   // Submit button has id="submitProduk" in create.blade.php
   cy.get("#submitProduk").click();

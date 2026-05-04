@@ -14,6 +14,7 @@ Feature: TC-ADM003 Management Produk Katalog
     When admin mengklik tombol tambahkan produk baru
     Then admin diarahkan ke halaman create produk
     When admin mengisi form produk baru dengan data valid
+    When admin menambahkan variasi ukuran
     And admin mengklik tombol tambahkan produk
     Then admin melihat pop up produk katalog berhasil ditambahkan
     When admin mengisi search dengan kata kunci "Kemeja Putih Formal Pria"
