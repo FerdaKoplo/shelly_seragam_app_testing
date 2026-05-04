@@ -46,7 +46,6 @@ Feature: TC-ADM003 Management Produk Katalog
     When admin mengklik tombol arsipkan pada salah satu produk
     Then produk tidak muncul lagi di halaman manage katalog
     When admin memilih filter status "archived"
-    When admin memilih filter status "archived"
     Then halaman katalog menampilkan produk yang diarsipkan
     When admin mengklik tombol pulihkan pada salah satu produk
     Then produk kembali muncul di halaman manage katalog

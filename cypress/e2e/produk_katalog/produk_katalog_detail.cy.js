@@ -127,6 +127,6 @@ When("Customer melanjutkan ke checkout", () => {
   cy.get('[data-cy=btn-checkout]').click();
 });
 
-Then("Checkout berhasil", () => {
+Then("Customer diarahkan ke checkout", () => {
   cy.url().should('include', '/checkout');
 });
