@@ -14,6 +14,8 @@ Feature: Product Detail - Quantity Validation (BVA)
     And Quantity control tersedia
     And Total harga tampil
     And Tombol aksi tersedia
+    And Customer melanjutkan ke checkout
+    Then Customer diarahkan ke checkout
   
   Scenario: Customer dapat membuka dan menutup panduan ukuran
     When Customer membuka panduan ukuran

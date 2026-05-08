@@ -66,4 +66,23 @@ Cypress.Commands.add("verifyModal", () => {
   cy.get('[data-cy=close-modal]').click();
 });
 
+Cypress.Commands.add("acceptAlert", (expectedText = null) => {
+  cy.on("window:confirm", (text) => {
+    if (expectedText) {
+      expect(text).to.include(expectedText);
+    }
+    return true; // OK
+  });
+
+  cy.on("window:alert", (text) => {
+    if (expectedText) {
+      expect(text).to.include(expectedText);
+    }
+  });
+});
+
+Cypress.Commands.add("dismissAlert", () => {
+  cy.on("window:confirm", () => false); // Cancel
+});
+
 

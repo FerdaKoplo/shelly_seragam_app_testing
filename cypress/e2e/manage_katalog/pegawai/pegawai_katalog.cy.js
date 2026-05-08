@@ -66,7 +66,7 @@ Then("produk baru muncul di halaman katalog", () => {
 When("pegawai mengklik tombol edit pada produk", () => {
   cy.get("#searchInput").clear().type("Celana").type("{enter}");
   cy.get('[data-cy="produk-card"]')
-    .contains("Celana Panjang Formal Pria")
+    .contains("Celana")
     .parents('[data-cy="produk-card"]')
     .find('[data-cy="btn-edit-produk"]')
     .click();
