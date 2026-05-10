@@ -26,6 +26,19 @@ describe('Manajemen Produk Kustomisasi Admin', () => {
     cy.url().should('include', '/create')
   })
 
+  When('Admin menambahkan section baru {string}', (namaSection) => {
+    // click only visible button
+    cy.get('[data-cy=btn-add-section]')
+      .filter(':visible')
+      .first()
+      .click()
+    cy.get('[data-cy=modal-tambah-section]').should('be.visible')
+    cy.get('[data-cy=nama-section-input]').type(namaSection)
+    cy.get('[data-cy=btn-add-section-simpan]').click()
+
+  })
+
+
   When('Admin menambahkan aspek utama', () => {
     // click only visible button
     cy.get('[data-cy=btn-add-aspek-utama]')
@@ -33,10 +46,11 @@ describe('Manajemen Produk Kustomisasi Admin', () => {
       .first()
       .click()
 
-      cy.get('[data-cy=toggle-kombinasi-1]:visible')
-        .should('be.visible')
-        .click()
+    cy.get('[data-cy=toggle-kombinasi-1]:visible')
+      .should('be.visible')
+      .click()
   })
+
   When('Admin menyimpan data', () => {
     cy.get('[data-cy=btn-save-create]').click()
   })

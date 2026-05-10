@@ -12,6 +12,7 @@ Feature: Manajemen Produk Kustomisasi Admin
     Given Admin sudah login
     When Admin membuka halaman produk kustomisasi
     And Admin klik tombol tambah
+    And Admin menambahkan section baru "Bundle"
     And Admin menambahkan aspek utama
     And Admin menyimpan data
     Then Data produk kustomisasi berhasil ditambahkan

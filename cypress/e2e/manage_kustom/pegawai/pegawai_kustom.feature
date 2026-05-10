@@ -12,6 +12,7 @@ Feature: Manajemen Produk Kustomisasi Pegawai
     Given Pegawai sudah login
     When Pegawai membuka halaman produk kustomisasi
     And Pegawai klik tombol tambah
+    And Admin menambahkan section baru "Bundle"
     And Pegawai menambahkan aspek utama
     And Pegawai menyimpan data
     Then Data produk kustomisasi berhasil ditambahkan
