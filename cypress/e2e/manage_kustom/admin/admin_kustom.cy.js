@@ -35,7 +35,10 @@ describe('Manajemen Produk Kustomisasi Admin', () => {
     cy.get('[data-cy=modal-tambah-section]').should('be.visible')
     cy.get('[data-cy=nama-section-input]').type(namaSection)
     cy.get('[data-cy=btn-add-section-simpan]').click()
+  })
 
+  Then('muncul peringatan section {string} sudah ditambahkan', (namaSection) => {
+    cy.verifyNotification("Section \""+ namaSection + "\" sudah ada di tab form ini!");
   })
 
 

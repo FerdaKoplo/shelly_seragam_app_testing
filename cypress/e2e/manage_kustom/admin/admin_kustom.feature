@@ -17,6 +17,14 @@ Feature: Manajemen Produk Kustomisasi Admin
     And Admin menyimpan data
     Then Data produk kustomisasi berhasil ditambahkan
 
+      # TC-ADM004-B1
+  Scenario: Admin menambahkan produk kustomisasi yang sudah ada
+    Given Admin sudah login
+    When Admin membuka halaman produk kustomisasi
+    And Admin klik tombol tambah
+    And Admin menambahkan section baru "Bundle"
+    Then muncul peringatan section "Bundle" sudah ditambahkan
+
     # TC-ADM004-C
   Scenario: Admin mengedit produk kustomisasi
     Given Admin sudah login

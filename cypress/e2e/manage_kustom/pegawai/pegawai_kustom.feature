@@ -17,6 +17,14 @@ Feature: Manajemen Produk Kustomisasi Pegawai
     And Pegawai menyimpan data
     Then Data produk kustomisasi berhasil ditambahkan
 
+    # TC-PGW004-B1
+  Scenario: Pegawai menambahkan produk kustomisasi yang sudah ada
+    Given Admin sudah login
+    When Admin membuka halaman produk kustomisasi
+    And Admin klik tombol tambah
+    And Admin menambahkan section baru "Bundle"
+    Then muncul peringatan section "Bundle" sudah ditambahkan
+
     # TC-PGW003-C
   Scenario: Pegawai mengedit produk kustomisasi
     Given Pegawai sudah login
