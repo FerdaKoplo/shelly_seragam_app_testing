@@ -9,11 +9,26 @@ const {
 
 module.exports = defineConfig({
   e2e: {
-    numTestsKeptInMemory: 5, 
+    numTestsKeptInMemory: 5,
     experimentalMemoryManagement: true,
     baseUrl: "http://127.0.0.1:8000/",
-    redirectionLimit: 50, 
+    redirectionLimit: 50,
     setupNodeEvents: async (on, config) => {
+      const fs = require("fs");
+      const path = require("path");
+
+      on("task", {
+        findDownloadedFile(extension) {
+          const downloadsFolder = "cypress/downloads";
+
+          const files = fs.readdirSync(downloadsFolder);
+
+          const target = files.find(file => file.endsWith(extension));
+
+          return target || null;
+        },
+      });
+
       await addCucumberPreprocessorPlugin(on, config);
       on(
         "file:preprocessor",
@@ -26,3 +41,4 @@ module.exports = defineConfig({
     specPattern: "cypress/e2e/**/*.feature",
   },
 });
+
