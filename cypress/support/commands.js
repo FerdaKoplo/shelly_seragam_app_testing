@@ -26,27 +26,29 @@
 
 // AUTH HELPER
 Cypress.Commands.add('loginAdmin', () => {
-    cy.session("admin-session", () => {
-        cy.visit("/login")
-        cy.get('#usernameInput').type("admin")
-        cy.get('#passwordInput').type("admin")
-        cy.get('.bg-neutral').click()
-        cy.url().should("include", "/admin/statistik-transaksi")
-    })
+  cy.session("admin-session", () => {
+    cy.visit("/login")
+    cy.get('#usernameInput').type("admin")
+    cy.get('#passwordInput').type("admin")
+    cy.get('.bg-neutral').click()
+    cy.url().should("include", "/admin/statistik-transaksi")
+  })
 })
 
 Cypress.Commands.add('loginPegawai', () => {
-    cy.session("pegawai-session", () => {
-        cy.visit("/login")
-        cy.get('#usernameInput').type("budi.santoso")
-        cy.get('#passwordInput').type("pegawai")
-        cy.get('.bg-neutral').click()
-        cy.url().should("include", "/admin/manage-transaksi")
-    })
+  cy.session("pegawai-session", () => {
+    cy.visit("/login")
+    cy.get('#usernameInput').type("budi.santoso")
+    cy.get('#passwordInput').type("pegawai")
+    cy.get('.bg-neutral').click()
+    cy.url().should("include", "/admin/manage-transaksi")
+  })
 })
 
 
 // ─── Dialog Helper ────────────────────────────────────────────────────────────
+
+// for custom full screen allert
 Cypress.Commands.add("acceptConfirm", () => {
   cy.on("window:confirm", () => true);
 });
@@ -55,10 +57,22 @@ Cypress.Commands.add("dismissConfirm", () => {
   cy.on("window:confirm", () => false);
 });
 
+// for generic modal 
 Cypress.Commands.add("verifyNotification", (message) => {
-  cy.get('#notificationOverlay > .relative').should('be.visible');
-  cy.contains(message).should("be.visible");
-  cy.get('#btnDismiss').click();
+  cy.get('[data-cy=notification-modal]')
+    .should('be.visible');
+
+  // cy.get('#notificationOverlay').should('be.visible');
+
+  cy.get('[data-cy="notification-message"]')
+    .should('contain.text', message)
+    .and('be.visible');
+
+  cy.get('#btnDismiss')
+    .click({ force: true });
+
+  cy.get('#notificationOverlay')
+    .should('not.be.visible');
 });
 
 Cypress.Commands.add("verifyModal", () => {
@@ -66,6 +80,7 @@ Cypress.Commands.add("verifyModal", () => {
   cy.get('[data-cy=close-modal]').click();
 });
 
+// for default browser alert
 Cypress.Commands.add("acceptAlert", (expectedText = null) => {
   cy.on("window:confirm", (text) => {
     if (expectedText) {
@@ -86,3 +101,74 @@ Cypress.Commands.add("dismissAlert", () => {
 });
 
 
+// Checkout helper
+
+Cypress.Commands.add('fillCustomerInfo', ({
+  name,
+  email,
+  phone
+}) => {
+  cy.get('[data-cy=input-full-name]')
+    .clear()
+    .type(name);
+
+  cy.get('[data-cy=input-email]')
+    .clear()
+    .type(email);
+
+  cy.get('[data-cy=input-phone]')
+    .clear()
+    .type(phone);
+});
+
+Cypress.Commands.add('fillShippingAddress', ({
+  address,
+  destination,
+  postal
+}) => {
+  cy.get('[data-cy=input-address]')
+    .clear()
+    .type(address);
+
+  cy.get('[data-cy=input-destination]')
+    .clear()
+    .type(destination);
+
+  cy.get('[data-cy=destination-results]', {
+    timeout: 20000
+  }).should('be.visible');
+
+  cy.get('[data-cy=destination-results]', destination, {
+    timeout: 20000
+  }).eq(0).click();
+
+  cy.get('[data-cy=input-postal-code]')
+    .clear()
+    .type(postal);
+});
+
+// Cypress.Commands.add('selectShipping' () => {
+
+// });
+
+Cypress.Commands.add('selectShipping', (shippingName) => {
+  cy.contains('[data-cy=shipping-option]', shippingName, {
+    timeout: 15000
+  })
+    .should('be.visible')
+    .click();
+});
+
+Cypress.Commands.add('fillValidCheckoutForm', () => {
+  cy.fillCustomerInfo({
+    name: 'Budi Setiawan',
+    email: 'budi@example.com',
+    phone: '081234567890'
+  });
+
+  cy.fillShippingAddress({
+    address: 'Jl Mawar No 12',
+    destination: 'Surabaya',
+    postal: '60241'
+  });
+});
