@@ -52,8 +52,13 @@ When("admin mengklik tombol simpan tanpa mengisi form", () => {
 });
 
 Then("sistem menampilkan validasi form pegawai", () => {
-  cy.get('#notificationOverlay > .relative').should('be.visible') // overlay is visible
-  cy.dismissConfirm();
+  cy.get('input[name="nama"]').then(($input) => {
+      // 2. This checks if the browser flags it as invalid
+      expect($input[0].validity.valueMissing).to.be.true;
+      
+      // 3. This checks the exact text inside that bubble
+      expect($input[0].validationMessage).to.include('Please fill out this field');
+    });
 });
 
 // ─── TC-ADM002-A-SEARCH : Cari & Filter pegawai ──────────────────────────────
@@ -105,9 +110,9 @@ Then("data pegawai berhasil diperbarui di daftar", () => {
 // ─── TC-ADM002-D : Ubah status pegawai ───────────────────────────────────────
 When("admin mengubah status pegawai menjadi {string}", (status) => {
   if (status === "non-aktif") {
-    cy.contains("button", "Non Aktif").click();
+    cy.contains("button", "NON-AKTIF").click();
   } else {
-    cy.contains("button", "Aktif").click();
+    cy.contains("button", "AKTIF").click();
   }
 });
 
@@ -133,5 +138,5 @@ When("admin mengkonfirmasi penghapusan", () => {
 
 Then("pegawai berhasil dihapus dari daftar", () => {
   cy.url().should("include", "/admin/manage-pegawai");
-  cy.get("tbody").should("not.contain", "temp_pegawai");
+  cy.get('[data-cy=table-pgw-name]').should("not.contain", "temp_pegawai");
 });
