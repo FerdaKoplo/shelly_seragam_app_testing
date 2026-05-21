@@ -55,6 +55,16 @@ When("admin mengisi form produk baru dengan data valid", () => {
   cy.get('input[name="stok"]').type("50");
   cy.get('textarea[name="deskripsi"]').type("Kemeja putih formal untuk pria, bahan berkualitas tinggi.");
   cy.get('input[name="kategori"]').type("Atasan");
+  
+  // add size variation
+  cy.get('[data-cy=open-size-modal]').click();
+  cy.get('[data-cy=modal-overlay]').should('be.visible');
+  cy.get('[data-cy=submit-size]').click();
+
+  cy.get('[data-cy=open-color-modal]').click();
+  cy.get('[data-cy=modal-overlay]').should('be.visible');
+  cy.get('[data-cy=btn-submit-color-variation]').click();
+
 });
 
 When("admin menambahkan variasi ukuran", () => {
