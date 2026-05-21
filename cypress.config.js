@@ -8,6 +8,7 @@ const {
 } = require("@badeball/cypress-cucumber-preprocessor/esbuild");
 
 module.exports = defineConfig({
+  projectId: 'ytshye',
   e2e: {
     numTestsKeptInMemory: 5,
     experimentalMemoryManagement: true,
