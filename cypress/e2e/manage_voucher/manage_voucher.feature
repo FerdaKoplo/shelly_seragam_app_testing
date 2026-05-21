@@ -9,6 +9,7 @@ Feature: Voucher Management
     Then voucher successfully saved
 
   Scenario: TC-ADM007-02 Add duplicate voucher code
+    Given there should be a voucher with PROMOSELLER code
     When admin add voucher with duplicate code
     Then system should show duplicate code error
 

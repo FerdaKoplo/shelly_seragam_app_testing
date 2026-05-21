@@ -105,6 +105,34 @@ import {
       .should("exist");
   });
   
+  Given("there should be a voucher with PROMOSELLER code", () => {
+   // 1. Search for 'PROMOSELLER' using Cypress search bar to be sure, or check the grid
+  cy.get('body').then(($body) => {
+    
+    // Check if the code text exists anywhere inside your voucher grid
+    if ($body.find(`${selectors.voucherRow}:contains("PROMOSELLER")`).length > 0) {
+      
+      // Case A: It exists! Log a message and do nothing (Passes the step)
+      cy.log("Voucher 'PROMOSELLER' already exists. Skipping creation.");
+      
+    } else {
+      
+      // Case B: It doesn't exist. Let's create it!
+      cy.log("Voucher 'PROMOSELLER' not found. Creating it now...");
+      
+      cy.get(selectors.addButton).click();
+      
+      fillVoucherForm(voucherData.duplicate);
+      
+      cy.get(selectors.saveButton).click();
+      
+      // Optional: Verify notification success to ensure it's safely created before continuing
+      cy.verifyNotification("Voucher Berhasil Ditambahkan");
+    }
+  });
+  });
+  
+
   When("admin add voucher with valid data", () => {
     cy.get(selectors.addButton).click();
   
@@ -136,6 +164,7 @@ import {
   });
   
   Then("system should show duplicate code error", () => {
+
     cy.verifyNotification("Voucher Dengan Kode Yang Sama Sudah Dibuat");
     
   });

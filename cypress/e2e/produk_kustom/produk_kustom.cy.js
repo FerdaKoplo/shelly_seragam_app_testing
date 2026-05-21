@@ -106,10 +106,6 @@ When("User menambah quantity hingga {int}", (value) => {
     }
   });
 
-Then("Quantity adalah {int}", (val) => {
-    cy.get('[data-cy=qty-input]').should('have.value', val);
-});
-
 Then("Quantity dikoreksi ke nilai valid", () => {
     cy.get('[data-cy=qty-input]').invoke('val').then(val => {
         expect(Number(val)).to.be.greaterThan(0);
