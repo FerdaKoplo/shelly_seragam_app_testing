@@ -128,15 +128,6 @@ When('Customer klik tombol bayar', () => {
         .should('be.oneOf', [200, 302]);
 });
 
-When('Customer klik tombol buat pesanan', () => {
-    cy.on('window:confirm', () => true);
-
-    cy.get('[data-cy=submit-checkout]')
-        .click();
-});
-
-
-
 
 Then('Customer diarahkan ke halaman pembayaran Xendit', () => {
     // Increase timeout because external redirects take a moment
@@ -155,19 +146,53 @@ When('Customer menyelesaikan pembayaran di Xendit', () => {
         cy.get('[data-testid="payment-channel-mandiri"] > .flex').click();
 
         // Click the Simulate Payment button available in Xendit's Test Mode sandbox
-        cy.get('[data-testid="simulate-button"]', { timeout: 100000 }).click();
+        cy.get('[data-testid="simulate-button"]', { timeout: 200000 }).click();
 
         // Verify success state on Xendit's hosted page
-        cy.get('[data-testid="success-description"]', { timeout: 50000 }).should('be.visible');
+        cy.get('[data-testid="success-description"]', { timeout: 550000 }).should('be.visible');
     });
     // cy.visit('/checkout');
-    // cy.url({ timeout: 300000 }).should('include', '/checkout');
+    // cy.url({ timeout: 3000000 }).should('include', '/checkout');
 });
 
 Then('Sistem menampilkan notifikasi pesanan berhasil', () => {
     // cy.visit('/checkout');
     cy.verifyNotification(
         'Pesanan berhasil dibuat, Anda akan dihubungi oleh CS untuk konfirmasi dan finalisasi harga.',
-        { timeout: 250000 }
+        { timeout: 5550000 }
     );
+});
+
+
+
+When('Customer klik tombol buat pesanan', () => {
+    cy.on('window:confirm', () => true);
+
+    cy.get('[data-cy=submit-checkout]')
+        .click();
+});
+
+
+When('Customer klik tombol submit checkout', () => {
+    cy.get('[data-cy=submit-checkout]').click();
+});
+Then('Field kode pos diterima', () => {
+    cy.get('[data-cy=input-postal-code]').should('not.have.class', 'error');
+});
+
+Then('Field nomor hp diterima', () => {
+    cy.get('[data-cy=input-phone]').should('not.have.class', 'error');
+});
+
+Then('Error {string} tampil', (message) => {
+    cy.get('[data-cy^="error-"]')
+        .contains(message)
+        .should('be.visible');
+
+});
+
+When('Customer mengisi data customer valid', () => {
+    cy.fillCustomerInfo({ name: 'Rina Wijayanti', email: 'rina@gmail.com', phone: '082134567890' });
+    // cy.get('[data-cy=input-destination]').type('Surabaya');
+    // sengaja tidak memilih opsi pengiriman
 });
