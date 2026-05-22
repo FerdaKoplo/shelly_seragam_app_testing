@@ -23,6 +23,7 @@ Feature: TC-PGW002 Management Produk Katalog Pegawai
   Scenario: Pegawai mengupdate katalog
     When pegawai navigasi ke halaman katalog
     Then pegawai diarahkan ke halaman katalog
+    When admin memilih filter status "active"
     When pegawai mengklik tombol edit pada produk
     Then pegawai diarahkan ke halaman edit produk
     When pegawai mengubah data produk

@@ -73,7 +73,6 @@ Then("produk baru muncul di halaman katalog", () => {
 // ─── Update Produk ─────────────────────────────────────
 
 When("pegawai mengklik tombol edit pada produk", () => {
-  cy.get("#searchInput").clear().type("Celana").type("{enter}");
   cy.get('[data-cy="produk-card"]')
     .contains("Celana")
     .parents('[data-cy="produk-card"]')

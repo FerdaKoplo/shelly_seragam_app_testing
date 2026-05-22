@@ -107,7 +107,6 @@ Then("produk baru muncul di halaman manage katalog", () => {
 // ─── TC-ADM003-C : Update Produk ─────────────────────────────────────────────
 
 When("admin mengklik tombol edit pada salah satu produk", () => {
-  cy.get("#searchInput").clear().type("Polo").type("{enter}");
   cy.get('[data-cy="produk-card"]')
     .contains("Polo")
     .parents('[data-cy="produk-card"]')
