@@ -144,19 +144,25 @@ When('Customer menyelesaikan pembayaran di Xendit', () => {
         // Select payment channel (e.g., Virtual Account or E-Wallet)
         cy.get('[data-testid="payment-channel-list-bank-transfer"]').click();
         cy.get('[data-testid="payment-channel-mandiri"] > .flex').click();
-
         // Click the Simulate Payment button available in Xendit's Test Mode sandbox
         cy.get('[data-testid="simulate-button"]', { timeout: 200000 }).click();
 
         // Verify success state on Xendit's hosted page
         cy.get('[data-testid="success-description"]', { timeout: 550000 }).should('be.visible');
+        // FORCE CYPRESS TO STAY HERE UNTIL THE REDIRECT STARTS
+        // We look for the current window location to no longer include 'xendit'
+        cy.wait(3000);
+        // cy.window({ timeout: 60000 }).match((win) => {
+        //     return !win.location.href.includes('xendit.co');
+        // });
     });
-    // cy.visit('/checkout');
-    // cy.url({ timeout: 3000000 }).should('include', '/checkout');
+
+    cy.url({ timeout: 5550000 }).should('include', '/checkout');
+
 });
 
 Then('Sistem menampilkan notifikasi pesanan berhasil', () => {
-    // cy.visit('/checkout');
+
     cy.verifyNotification(
         'Pesanan berhasil dibuat, Anda akan dihubungi oleh CS untuk konfirmasi dan finalisasi harga.',
         { timeout: 5550000 }
