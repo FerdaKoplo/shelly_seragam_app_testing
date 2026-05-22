@@ -62,7 +62,7 @@ Cypress.Commands.add("verifyNotification", (message) => {
   cy.get('[data-cy=notification-modal]')
     .should('be.visible');
 
-  // cy.get('#notificationOverlay').should('be.visible');
+  cy.get('#notificationOverlay').should('be.visible');
 
   cy.get('[data-cy="notification-message"]')
     .should('contain.text', message)
@@ -138,7 +138,7 @@ Cypress.Commands.add('fillShippingAddress', ({
     timeout: 20000
   }).should('be.visible');
 
-  cy.get('[data-cy=destination-results]', destination, {
+  cy.get('[data-cy=destination-results]', {
     timeout: 20000
   }).eq(0).click();
 
