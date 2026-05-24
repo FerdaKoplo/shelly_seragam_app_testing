@@ -1,35 +1,8 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
-
-// ========================
-// FILE HELPERS
-// ========================
-const MB = 1024 * 1024;
-
-function createFakeFile({ name, sizeInMB, type }) {
-    const sizeInBytes = sizeInMB * MB;
-
-    return new File(
-        [new ArrayBuffer(sizeInBytes)],
-        name,
-        { type }
-    );
-}
-
-function uploadFile(file) {
-    const dataTransfer = new DataTransfer();
-    dataTransfer.items.add(file);
-
-    cy.get('[data-cy=file-upload]').then((input) => {
-        const nativeInput = input[0];
-
-        Object.defineProperty(nativeInput, "files", {
-            value: dataTransfer.files,
-            writable: false,
-        });
-
-        nativeInput.dispatchEvent(new Event("change", { bubbles: true }));
-    });
-}
+import {
+    createFakeFile,
+    uploadFile,
+} from "../../support/step_definitions/kustom_flow_shared.js";
 
 // ========================
 // GIVEN

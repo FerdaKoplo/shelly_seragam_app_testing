@@ -174,8 +174,15 @@ Then('Sistem menampilkan notifikasi pesanan berhasil', () => {
 When('Customer klik tombol buat pesanan', () => {
     cy.on('window:confirm', () => true);
 
+    cy.intercept('POST', '**/checkout')
+        .as('checkout');
+
     cy.get('[data-cy=submit-checkout]')
         .click();
+
+    cy.wait('@checkout')
+        .its('response.statusCode')
+        .should('be.oneOf', [200, 302]);
 });
 
 
