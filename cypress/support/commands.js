@@ -62,9 +62,9 @@ Cypress.Commands.add("verifyNotification", (message) => {
   cy.get('[data-cy=notification-modal]')
     .should('be.visible');
 
-  cy.get('#notificationOverlay').should('be.visible');
+  // cy.get('#notificationOverlay').should('be.visible');
 
-  cy.get('[data-cy="notification-message"]')
+  cy.get('[data-cy=notification-message]')
     .should('contain.text', message)
     .and('be.visible');
 

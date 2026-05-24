@@ -97,6 +97,11 @@ describe('Manajemen Produk Kustomisasi Admin', () => {
     cy.get('[data-cy=confirm-delete]').click()
   })
 
+
+  Then('muncul peringatan aspek tidak bisa dihapus', () => {
+    cy.verifyNotification('Aspek tidak dapat dihapus karena masih digunakan oleh transaksi aktif')
+
+  })
   Then('Data berhasil dihapus', () => {
     cy.verifyNotification('berhasil')
 

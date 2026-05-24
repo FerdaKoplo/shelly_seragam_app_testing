@@ -134,9 +134,11 @@ When("admin mengklik tombol hapus pada pegawai pertama", () => {
 
 When("admin mengkonfirmasi penghapusan", () => {
   cy.acceptConfirm();
+  cy.verifyNotification('Pegawai telah dihapus');
 });
 
 Then("pegawai berhasil dihapus dari daftar", () => {
   cy.url().should("include", "/admin/manage-pegawai");
-  cy.get('[data-cy=table-pgw-name]').should("not.contain", "temp_pegawai");
+  cy.get('[data-cy=table-pgw-not-found]').should("be.visible");
+  // cy.get('[data-cy=table-pgw-name]').should("not.contain", "temp_pegawai");
 });

@@ -11,7 +11,6 @@ module.exports = defineConfig({
   projectId: 'ytshye',
   e2e: {
     numTestsKeptInMemory: 5,
-    experimentalModifyObstructiveThirdPartyCode: true,
     experimentalMemoryManagement: true,
     baseUrl: "http://127.0.0.1:8000/",
     redirectionLimit: 50,
