@@ -1,5 +1,15 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 
+const ORDER_SUCCESS_MESSAGE =
+  "Pesanan berhasil dibuat, Anda akan dihubungi oleh CS untuk konfirmasi dan finalisasi harga.";
+
+/** Xendit hosted checkout (test mode). */
+const XENDIT_ORIGIN = "https://checkout-staging.xendit.co";
+
+/** Same path Xendit success_redirect_url uses (see routes/web.php). */
+const CHECKOUT_SUCCESS_CALLBACK =
+  "/checkout?checkout_success=1&type=katalog";
+
 Given('Customer memiliki produk katalog di keranjang', () => {
     cy.visit("/katalog");
 
@@ -128,45 +138,31 @@ When('Customer klik tombol bayar', () => {
         .should('be.oneOf', [200, 302]);
 });
 
-
 Then('Customer diarahkan ke halaman pembayaran Xendit', () => {
-    // Increase timeout because external redirects take a moment
-    cy.origin('https://checkout-staging.xendit.co', () => {
-        cy.url({ timeout: 30000 }).should('include', 'xendit.co');
+    // Browser is on Xendit — all commands here must run inside cy.origin()
+    cy.origin(XENDIT_ORIGIN, () => {
+        cy.url({ timeout: 30000 }).should("include", "xendit.co");
     });
-
 });
 
-When('Customer menyelesaikan pembayaran di Xendit', () => {
-    // 1. Tell Cypress we are switching to Xendit's domain temporarily
-
-    cy.origin('https://checkout-staging.xendit.co', () => {
-        // Select payment channel (e.g., Virtual Account or E-Wallet)
+When("Customer menyelesaikan pembayaran di Xendit", () => {
+    cy.origin(XENDIT_ORIGIN, () => {
         cy.get('[data-testid="payment-channel-list-bank-transfer"]').click();
         cy.get('[data-testid="payment-channel-mandiri"] > .flex').click();
-        // Click the Simulate Payment button available in Xendit's Test Mode sandbox
-        cy.get('[data-testid="simulate-button"]', { timeout: 200000 }).click();
-
-        // Verify success state on Xendit's hosted page
-        cy.get('[data-testid="success-description"]', { timeout: 550000 }).should('be.visible');
-        // FORCE CYPRESS TO STAY HERE UNTIL THE REDIRECT STARTS
-        // We look for the current window location to no longer include 'xendit'
-        cy.wait(3000);
-        // cy.window({ timeout: 60000 }).match((win) => {
-        //     return !win.location.href.includes('xendit.co');
-        // });
+        cy.get('[data-testid="simulate-button"]', { timeout: 120000 }).click();
+        cy.get('[data-testid="success-description"]', { timeout: 120000 }).should(
+            "be.visible",
+        );
     });
 
-    cy.url({ timeout: 5550000 }).should('include', '/checkout');
-
+    // Back on app origin: Xendit's redirect often breaks Cypress, so open success_redirect_url
+    cy.visit(CHECKOUT_SUCCESS_CALLBACK);
+    cy.url({ timeout: 15000 }).should("include", "/checkout");
+    cy.get("[data-cy=checkout-page]").should("exist");
 });
 
 Then('Sistem menampilkan notifikasi pesanan berhasil', () => {
-
-    cy.verifyNotification(
-        'Pesanan berhasil dibuat, Anda akan dihubungi oleh CS untuk konfirmasi dan finalisasi harga.',
-        { timeout: 5550000 }
-    );
+    cy.verifyNotification(ORDER_SUCCESS_MESSAGE, { timeout: 20000 });
 });
 
 

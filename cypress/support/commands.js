@@ -57,22 +57,19 @@ Cypress.Commands.add("dismissConfirm", () => {
   cy.on("window:confirm", () => false);
 });
 
-// for generic modal 
-Cypress.Commands.add("verifyNotification", (message) => {
-  cy.get('[data-cy=notification-modal]')
-    .should('be.visible');
+// for generic modal
+Cypress.Commands.add("verifyNotification", (message, options = {}) => {
+  const timeout = options.timeout ?? 15000;
 
-  // cy.get('#notificationOverlay').should('be.visible');
+  cy.get("[data-cy=notification-modal]", { timeout }).should("be.visible");
 
-  cy.get('[data-cy=notification-message]')
-    .should('contain.text', message)
-    .and('be.visible');
+  cy.get("[data-cy=notification-message]", { timeout })
+    .should("contain.text", message)
+    .and("be.visible");
 
-  cy.get('#btnDismiss')
-    .click({ force: true });
+  cy.get("#btnDismiss").click({ force: true });
 
-  cy.get('#notificationOverlay')
-    .should('not.be.visible');
+  cy.get("#notificationOverlay").should("not.be.visible");
 });
 
 Cypress.Commands.add("verifyModal", () => {
