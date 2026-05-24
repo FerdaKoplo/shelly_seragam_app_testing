@@ -1,4 +1,8 @@
 import { When, Then } from "@badeball/cypress-cucumber-preprocessor";
+import {
+  clickFilterTransaksi,
+  searchTransaksiFromFirstCustomer,
+} from "../../../support/step_definitions/manage_transaksi_shared.js";
 
 // ─── Shared navigation ────────────────────────────────────────────────────────
 
@@ -111,4 +115,31 @@ Then("perubahan transaksi berhasil disimpan", () => {
   cy.get("[data-cy=transaksi-table]").should("be.visible");
 
   cy.verifyNotification("Detail transaksi berhasil diperbarui");
+});
+
+// ─── TC-ADM005-C : Filter Transaksi ──────────────────────────────────────────
+
+/**
+ * TC-ADM005-C
+ */
+When("admin memilih filter transaksi {string}", (tipe) => {
+  clickFilterTransaksi(tipe);
+});
+
+/**
+ * TC-ADM005-C
+ */
+When("admin mereset filter transaksi", () => {
+  cy.get("[data-cy=filter-reset]").should("be.visible").click();
+  cy.url().should("include", "/admin/manage-transaksi");
+  cy.url().should("not.include", "filter=");
+});
+
+// ─── TC-ADM005-D : Cari Transaksi ────────────────────────────────────────────
+
+/**
+ * TC-ADM005-D
+ */
+When("admin mencari transaksi dengan kata kunci dari transaksi pertama", () => {
+  searchTransaksiFromFirstCustomer();
 });

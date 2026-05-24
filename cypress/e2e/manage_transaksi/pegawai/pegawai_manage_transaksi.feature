@@ -21,3 +21,23 @@ Then modal detail transaksi terbuka untuk pegawai
 When pegawai mengisi nomor resi customer
 And pegawai mengklik tombol simpan perubahan transaksi
 Then perubahan transaksi berhasil disimpan oleh pegawai
+
+# TC-PGW004-C
+Scenario: Pegawai memfilter daftar transaksi berdasarkan tipe produk
+
+When pegawai navigasi ke halaman manage transaksi
+Then pegawai diarahkan ke halaman manage transaksi
+When pegawai memilih filter transaksi "Katalog"
+Then tabel transaksi hanya menampilkan tipe "Katalog"
+When pegawai memilih filter transaksi "Kustom"
+Then tabel transaksi hanya menampilkan tipe "Kustom"
+When pegawai mereset filter transaksi
+Then pegawai melihat daftar transaksi tersedia di tabel
+
+# TC-PGW004-D
+Scenario: Pegawai mencari transaksi berdasarkan kata kunci
+
+When pegawai navigasi ke halaman manage transaksi
+Then pegawai diarahkan ke halaman manage transaksi
+When pegawai mencari transaksi dengan kata kunci dari transaksi pertama
+Then hasil pencarian transaksi menampilkan transaksi yang cocok
