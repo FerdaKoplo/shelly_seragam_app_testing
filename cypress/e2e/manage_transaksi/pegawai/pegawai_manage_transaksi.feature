@@ -41,3 +41,25 @@ When pegawai navigasi ke halaman manage transaksi
 Then pegawai diarahkan ke halaman manage transaksi
 When pegawai mencari transaksi dengan kata kunci dari transaksi pertama
 Then hasil pencarian transaksi menampilkan transaksi yang cocok
+
+# TC-PGW004-E
+Scenario: Pegawai memperbarui transaksi katalog dengan nomor resi
+
+When pegawai navigasi ke halaman manage transaksi
+Then pegawai diarahkan ke halaman manage transaksi
+When pegawai membuka detail transaksi katalog pertama
+Then modal detail transaksi katalog terbuka untuk pegawai
+When pegawai mengisi nomor resi customer
+And pegawai mengklik tombol simpan perubahan transaksi
+Then perubahan transaksi berhasil disimpan oleh pegawai
+
+# TC-PGW004-F
+Scenario: Pegawai mengunggah bukti pembayaran transaksi kustom
+
+When pegawai navigasi ke halaman manage transaksi
+Then pegawai diarahkan ke halaman manage transaksi
+When pegawai membuka detail transaksi kustom yang belum ada bukti pembayaran
+Then modal detail transaksi kustom terbuka untuk pegawai
+And modal menampilkan form unggah bukti pembayaran kustom untuk pegawai
+When pegawai mengunggah bukti pembayaran kustom
+Then bukti pembayaran kustom berhasil diunggah

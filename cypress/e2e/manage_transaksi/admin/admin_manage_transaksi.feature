@@ -41,3 +41,25 @@ When admin navigasi ke halaman manage transaksi
 Then admin diarahkan ke halaman manage transaksi
 When admin mencari transaksi dengan kata kunci dari transaksi pertama
 Then hasil pencarian transaksi menampilkan transaksi yang cocok
+
+# TC-ADM005-E
+Scenario: Admin memperbarui transaksi katalog dengan nomor resi
+
+When admin navigasi ke halaman manage transaksi
+Then admin diarahkan ke halaman manage transaksi
+When admin membuka detail transaksi katalog pertama
+Then modal detail transaksi katalog terbuka
+When admin mengisi nomor resi customer
+And admin mengklik tombol simpan perubahan transaksi
+Then perubahan transaksi berhasil disimpan
+
+# TC-ADM005-F
+Scenario: Admin mengunggah bukti pembayaran transaksi kustom
+
+When admin navigasi ke halaman manage transaksi
+Then admin diarahkan ke halaman manage transaksi
+When admin membuka detail transaksi kustom yang belum ada bukti pembayaran
+Then modal detail transaksi kustom terbuka
+And modal menampilkan form unggah bukti pembayaran kustom
+When admin mengunggah bukti pembayaran kustom
+Then bukti pembayaran kustom berhasil diunggah

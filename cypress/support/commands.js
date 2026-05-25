@@ -60,7 +60,6 @@ Cypress.Commands.add("dismissConfirm", () => {
 // for generic modal
 Cypress.Commands.add("verifyNotification", (message, options = {}) => {
   const timeout = options.timeout ?? 15000;
-
   cy.get("[data-cy=notification-modal]", { timeout }).should("be.visible");
 
   cy.get("[data-cy=notification-message]", { timeout })

@@ -1,7 +1,14 @@
 import { When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import {
+  assertModalShowsKatalogItems,
+  assertModalShowsKustomDetail,
   clickFilterTransaksi,
+  openFirstTransaksiDetailByFilter,
+  openKustomTransaksiNeedingPaymentUpload,
   searchTransaksiFromFirstCustomer,
+  uploadKustomPaymentInOpenModal,
+  withinVisibleTransaksiModal,
+  waitForVisibleTransaksiModal,
 } from "../../../support/step_definitions/manage_transaksi_shared.js";
 
 // ─── Shared navigation ────────────────────────────────────────────────────────
@@ -50,41 +57,46 @@ When("admin mengklik tombol detail pada salah satu transaksi", () => {
     .first()
     .find("[data-cy^=btn-detail-]")
     .click();
+  waitForVisibleTransaksiModal();
 });
 
 /**
  * TC-ADM005-A / TC-ADM005-B
  */
 Then("modal detail transaksi terbuka", () => {
-  cy.get("[data-cy=modal-overlay]").should("be.visible");
-  cy.get("[data-cy^=modal-transaksi-]").should("be.visible");
-  cy.get("[data-cy^=modal-title-]")
-    .invoke("text")
-    .should("match", /Detail Transaksi/);
+  withinVisibleTransaksiModal(() => {
+    cy.get("[data-cy^=modal-title-]")
+      .invoke("text")
+      .should("match", /Detail Transaksi/);
+  });
 });
 
 /**
  * TC-ADM005-A
  */
 Then("modal menampilkan informasi customer", () => {
-  cy.get("[data-cy^=modal-customer-name-]")
-    .invoke("text")
-    .should("not.be.empty");
-  cy.get("[data-cy^=modal-customer-alamat-]")
-    .invoke("text")
-    .should("not.be.empty");
+  withinVisibleTransaksiModal(() => {
+    cy.get("[data-cy^=modal-customer-name-]")
+      .invoke("text")
+      .should("not.be.empty");
+    cy.get("[data-cy^=modal-customer-alamat-]")
+      .invoke("text")
+      .should("not.be.empty");
+  });
 });
 
 /**
  * TC-ADM005-A
  */
 Then("modal menampilkan detail item pesanan", () => {
-  // Either katalog items or kustom detail panel must be present
-  cy.get("[data-cy^=modal-katalog-items-],[data-cy^=modal-kustom-detail-]")
-    .should("exist");
-  cy.get("[data-cy^=modal-total-]")
-    .invoke("text")
-    .should("match", /Rp[\s\d.,]+/);
+  withinVisibleTransaksiModal(() => {
+    cy.get(
+      "[data-cy^=modal-katalog-items-],[data-cy^=modal-kustom-detail-]",
+    ).should("exist");
+    cy.get("[data-cy^=modal-total-]")
+      .invoke("text")
+      .should("match", /Rp[\s\d.,]+/);
+  });
 });
 
 // ─── TC-ADM005-B : Ubah Status Transaksi ─────────────────────────────────────
@@ -142,4 +154,56 @@ When("admin mereset filter transaksi", () => {
  */
 When("admin mencari transaksi dengan kata kunci dari transaksi pertama", () => {
   searchTransaksiFromFirstCustomer();
+});
+
+// ─── TC-ADM005-E : Perbarui Transaksi Katalog ────────────────────────────────
+
+/**
+ * TC-ADM005-E
+ */
+When("admin membuka detail transaksi katalog pertama", () => {
+  openFirstTransaksiDetailByFilter("Katalog");
+});
+
+/**
+ * TC-ADM005-E
+ */
+Then("modal detail transaksi katalog terbuka", () => {
+  waitForVisibleTransaksiModal();
+  assertModalShowsKatalogItems();
+});
+
+// ─── TC-ADM005-F : Unggah Bukti Pembayaran Kustom ─────────────────────────────
+
+/**
+ * TC-ADM005-F
+ */
+When("admin membuka detail transaksi kustom yang belum ada bukti pembayaran", () => {
+  openKustomTransaksiNeedingPaymentUpload();
+});
+
+/**
+ * TC-ADM005-F
+ */
+Then("modal detail transaksi kustom terbuka", () => {
+  waitForVisibleTransaksiModal();
+  assertModalShowsKustomDetail();
+});
+
+/**
+ * TC-ADM005-F
+ */
+Then("modal menampilkan form unggah bukti pembayaran kustom", () => {
+  withinVisibleTransaksiModal(() => {
+    cy.get("[data-cy^=form-upload-payment-]").should("be.visible");
+    cy.get("[data-cy^=input-file-payment-]").should("exist");
+    cy.get("[data-cy^=btn-upload-payment-]").should("be.visible");
+  });
+});
+
+/**
+ * TC-ADM005-F
+ */
+When("admin mengunggah bukti pembayaran kustom", () => {
+  uploadKustomPaymentInOpenModal();
 });
