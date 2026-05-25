@@ -13,7 +13,13 @@ module.exports = defineConfig({
     runMode: 2, // Reruns up to 2 times in 'cypress run'
   },
   e2e: {
-
+    reporter: 'mochawesome',
+    reporterOptions: {
+      reportDir: 'cypress/reports',
+      overwrite: false,
+      html: true,
+      json: true,
+    },
     numTestsKeptInMemory: 5,
     experimentalMemoryManagement: true,
     baseUrl: "http://127.0.0.1:8000/",
