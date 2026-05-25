@@ -9,7 +9,11 @@ const {
 
 module.exports = defineConfig({
   projectId: 'ytshye',
+  retries: {
+    runMode: 2, // Reruns up to 2 times in 'cypress run'
+  },
   e2e: {
+
     numTestsKeptInMemory: 5,
     experimentalMemoryManagement: true,
     baseUrl: "http://127.0.0.1:8000/",
@@ -23,7 +27,7 @@ module.exports = defineConfig({
         }
         return launchOptions;
       });
-      
+
       const fs = require("fs");
       const path = require("path");
 
