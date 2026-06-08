@@ -22,7 +22,8 @@ module.exports = defineConfig({
     },
     numTestsKeptInMemory: 5,
     experimentalMemoryManagement: true,
-    baseUrl: "http://127.0.0.1:8000/",
+    // baseUrl: "http://127.0.0.1:8000/",
+    baseUrl: "https://shellyseragam.itsfarid.com/",
     redirectionLimit: 50,
     setupNodeEvents: async (on, config) => {
 
