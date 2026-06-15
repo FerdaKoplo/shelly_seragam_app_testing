@@ -20,6 +20,10 @@ Background:
     And Customer klik tombol submit checkout
     Then Error "Kode pos tidak valid" tampil
 
+    Scenario: TC-CUS006-EP-04 - Nomor HP valid
+    When Customer mengisi nomor hp "081234567890"
+    Then Field nomor hp diterima
+
   Scenario: TC-CUS006-BVA-01 - Nomor HP kurang dari minimum
     When Customer mengisi nomor hp "081234"
     And Customer klik tombol submit checkout
