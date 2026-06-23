@@ -29,10 +29,7 @@ When("admin memilih filter kategori {string}", (kategori) => {
   cy.contains("Filter Katalog").should("be.visible");
 
   // Select the kategori option inside the modal
-  cy.contains("Kategori")
-    .siblings()
-    .find("select")
-    .select(kategori);
+  cy.contains("Kategori").siblings().find("select").select(kategori);
 
   // Apply the filter
   cy.contains("Terapkan").click();
@@ -53,18 +50,19 @@ When("admin mengisi form produk baru dengan data valid", () => {
   cy.get('input[name="nama_produk"]').type("Kemeja Putih Formal Pria");
   cy.get('input[name="harga"]').type("150000");
   cy.get('input[name="stok"]').type("50");
-  cy.get('textarea[name="deskripsi"]').type("Kemeja putih formal untuk pria, bahan berkualitas tinggi.");
+  cy.get('textarea[name="deskripsi"]').type(
+    "Kemeja putih formal untuk pria, bahan berkualitas tinggi.",
+  );
   cy.get('input[name="kategori"]').type("Atasan");
-  
+
   // add size variation
-  cy.get('[data-cy=open-size-modal]').click();
-  cy.get('[data-cy=modal-overlay]').should('be.visible');
-  cy.get('[data-cy=submit-size]').click();
+  cy.get("[data-cy=open-size-modal]").click();
+  cy.get("[data-cy=modal-overlay]").should("be.visible");
+  cy.get("[data-cy=submit-size]").click();
 
-  cy.get('[data-cy=open-color-modal]').click();
-  cy.get('[data-cy=modal-overlay]').should('be.visible');
-  cy.get('[data-cy=btn-submit-color-variation]').click();
-
+  cy.get("[data-cy=open-color-modal]").click();
+  cy.get("[data-cy=modal-overlay]").should("be.visible");
+  cy.get("[data-cy=btn-submit-color-variation]").click();
 });
 
 When("admin menambahkan variasi ukuran", () => {
@@ -72,12 +70,12 @@ When("admin menambahkan variasi ukuran", () => {
   cy.get('[data-cy="open-size-modal"]').click();
 
   // make sure modal is visible
-  cy.get('[data-cy="modal-size-variation"]').should('be.visible');
+  cy.get('[data-cy="modal-size-variation"]').should("be.visible");
 
   // choose preset (optional, but cleaner)
   cy.get('[data-cy="preset-L"]').click();
 
-  // // or manually type 
+  // // or manually type
   // cy.get('[data-cy="input-size-name"]').clear().type('L');
   // cy.get('[data-cy="input-sleeve"]').clear().type('90');
   // cy.get('[data-cy="input-chest"]').clear().type('70');
@@ -86,18 +84,17 @@ When("admin menambahkan variasi ukuran", () => {
   cy.get('[data-cy="submit-size"]').click();
 
   // assert variation added to UI
-  cy.get('[data-cy="size-item"]').should('contain', 'L');
+  cy.get('[data-cy="size-item"]').should("contain", "L");
 });
 
 When("admin mengklik tombol tambahkan produk", () => {
   // Submit button has id="submitProduk" in create.blade.php
   cy.get("#submitProduk").click();
-
 });
 Then("admin melihat pop up produk katalog berhasil ditambahkan", () => {
-  cy.get('#notificationOverlay > .relative').should('be.visible');
+  cy.get("#notificationOverlay > .relative").should("be.visible");
   cy.contains("Produk berhasil ditambahkan").should("be.visible");
-  cy.get('#btnDismiss > .font-inter').click();
+  cy.get("#btnDismiss > .font-inter").click();
 });
 
 Then("produk baru muncul di halaman manage katalog", () => {
@@ -122,7 +119,9 @@ When("admin mengubah data produk dengan data baru", () => {
   cy.get('input[name="nama_produk"]').clear().type("Polo Shirt Bordir");
   cy.get('input[name="harga"]').clear().type("155000");
   cy.get('input[name="stok"]').clear().type("60");
-  cy.get('textarea[name="deskripsi"]').clear().type("Polo shirt dengan bordir eksklusif.");
+  cy.get('textarea[name="deskripsi"]')
+    .clear()
+    .type("Polo shirt dengan bordir eksklusif.");
   cy.get('input[name="kategori"]').clear().type("Atasan");
 });
 
@@ -135,15 +134,11 @@ Then("admin memverifikasi data produk berhasil diperbarui", () => {
   // Redirected back to index and the updated name is visible
   cy.url().should("include", "/admin/manage-katalog");
   cy.contains("Polo Shirt Bordir").should("be.visible");
-
 });
 
 // ─── TC-ADM003-D : Arsip Produk ──────────────────────────────────────────────
 
 When("admin mengklik tombol arsipkan pada salah satu produk", () => {
-
-
-
   // Store the product name before archiving so we can verify it's gone
   cy.get('[data-cy="produk-card"]')
     .first()
@@ -159,14 +154,11 @@ When("admin mengklik tombol arsipkan pada salah satu produk", () => {
     });
 
   // The archive action opens a confirm modal — accept it
-  cy.get('#archiveModalConfirm')
-    .should('be.visible')
-    .click();
+  cy.get("#archiveModalConfirm").should("be.visible").click();
   cy.verifyNotification("Produk berhasil diarsipkan");
 });
 
 Then("produk tidak muncul lagi di halaman manage katalog", () => {
-
   // After archiving we stay on the same page (default view shows non-archived)
   cy.url().should("include", "/admin/manage-katalog");
   // The page should no longer show the archived product in the active list
@@ -182,10 +174,7 @@ When("admin memilih filter status {string}", (status) => {
   cy.get("#btn-filter-katalog").click();
   cy.contains("Filter Katalog").should("be.visible");
 
-  cy.contains("Status Stok")
-    .siblings()
-    .find("select")
-    .select(status);
+  cy.contains("Status Stok").siblings().find("select").select(status);
 
   cy.contains("Terapkan").click();
 });
@@ -198,7 +187,10 @@ Then("produk yang diarsipkan muncul di daftar arsip", () => {
 // ─── TC-ADM003-E : Restore Produk ────────────────────────────────────────────
 
 Then("halaman katalog menampilkan produk yang diarsipkan", () => {
-  cy.get('[data-cy="produk-card"][data-archived=1]').should("have.length.greaterThan", 0);
+  cy.get('[data-cy="produk-card"][data-archived=1]').should(
+    "have.length.greaterThan",
+    0,
+  );
 });
 
 When("admin mengklik tombol pulihkan pada salah satu produk", () => {
@@ -228,9 +220,7 @@ When("admin mengklik tombol hapus pada salah satu produk", () => {
       cy.get('[data-cy="btn-delete-produk"]').click();
     });
   // cy.get('[data-cy="btn-delete-produk"]').first().click();
-  cy.get('#deleteModalConfirm')
-    .should('be.visible')
-    .click();
+  cy.get("#deleteModalConfirm").should("be.visible").click();
 
   cy.verifyNotification("Produk berhasil dihapus");
 });
@@ -242,3 +232,31 @@ Then("produk dihapus permanen dan tidak muncul di halaman manapun", () => {
     expect($cards.length).to.be.gte(0);
   });
 });
+
+// ─── EQP & BVA: Validasi Input Harga ─────────────────────────────────────────
+
+When("admin mengisi form produk dengan harga {string}", (harga) => {
+  cy.get('input[name="nama_produk"]')
+    .clear()
+    .type("Produk Testing Harga " + harga);
+  cy.get('input[name="stok"]').clear().type("50");
+  cy.get('textarea[name="deskripsi"]')
+    .clear()
+    .type("Testing BVA dan EQP untuk input harga.");
+  cy.get('input[name="kategori"]').clear().type("Atasan");
+
+  cy.get('input[name="harga"]').clear();
+
+  if (harga.length > 0) {
+    cy.get('input[name="harga"]').type(harga);
+  }
+});
+
+Then("admin melihat notifikasi error validasi {string}", (pesanError) => {
+  cy.get('[data-cy="notification-message"]')
+    .should("be.visible")
+    .and("contain.text", pesanError);
+
+  cy.get("#btnDismiss").click({ force: true });
+});
+

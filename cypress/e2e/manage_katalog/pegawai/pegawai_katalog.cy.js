@@ -4,7 +4,7 @@ import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 
 When("pegawai navigasi ke halaman katalog", () => {
   cy.loginPegawai();
-  cy.visit("/admin/manage-katalog"); 
+  cy.visit("/admin/manage-katalog");
 });
 
 Then("pegawai diarahkan ke halaman katalog", () => {
@@ -21,10 +21,7 @@ When("pegawai memilih filter kategori {string}", (kategori) => {
   cy.get("#btn-filter-katalog").click();
   cy.contains("Filter Katalog").should("be.visible");
 
-  cy.contains("Kategori")
-    .siblings()
-    .find("select")
-    .select(kategori);
+  cy.contains("Kategori").siblings().find("select").select(kategori);
 
   cy.contains("Terapkan").click();
 });
@@ -43,17 +40,19 @@ When("pegawai mengisi form produk baru dengan data valid", () => {
   cy.get('input[name="nama_produk"]').type("Celana Panjang Formal Pria");
   cy.get('input[name="harga"]').type("120000");
   cy.get('input[name="stok"]').type("30");
-  cy.get('textarea[name="deskripsi"]').type("Celana formal pria bahan premium.");
+  cy.get('textarea[name="deskripsi"]').type(
+    "Celana formal pria bahan premium.",
+  );
   cy.get('input[name="kategori"]').type("Celana");
 
   // add size variation
-  cy.get('[data-cy=open-size-modal]').click();
-  cy.get('[data-cy=modal-overlay]').should('be.visible');
-  cy.get('[data-cy=submit-size]').click();
+  cy.get("[data-cy=open-size-modal]").click();
+  cy.get("[data-cy=modal-overlay]").should("be.visible");
+  cy.get("[data-cy=submit-size]").click();
 
-  cy.get('[data-cy=open-color-modal]').click();
-  cy.get('[data-cy=modal-overlay]').should('be.visible');
-  cy.get('[data-cy=btn-submit-color-variation]').click();
+  cy.get("[data-cy=open-color-modal]").click();
+  cy.get("[data-cy=modal-overlay]").should("be.visible");
+  cy.get("[data-cy=btn-submit-color-variation]").click();
 });
 
 When("pegawai mengklik tombol simpan produk", () => {
@@ -61,9 +60,9 @@ When("pegawai mengklik tombol simpan produk", () => {
 });
 
 Then("pegawai melihat notifikasi produk berhasil ditambahkan", () => {
-  cy.get('#notificationOverlay > .relative').should('be.visible');
+  cy.get("#notificationOverlay > .relative").should("be.visible");
   cy.contains("Produk berhasil ditambahkan").should("be.visible");
-  cy.get('#btnDismiss').click();
+  cy.get("#btnDismiss").click();
 });
 
 Then("produk baru muncul di halaman katalog", () => {
@@ -86,12 +85,8 @@ Then("pegawai diarahkan ke halaman edit produk", () => {
 
 When("pegawai mengubah data produk", () => {
   cy.get('input[name="harga"]').clear().type("115000");
-  cy.get('input[name="nama_produk"]')
-  .clear()
-  .type("Celana Panjang Hitam");
-  cy.get('textarea[name="deskripsi"]')
-    .clear()
-    .type("Celana Pendek");
+  cy.get('input[name="nama_produk"]').clear().type("Celana Panjang Hitam");
+  cy.get('textarea[name="deskripsi"]').clear().type("Celana Pendek");
 });
 
 When("pegawai mengklik tombol simpan perubahan", () => {
@@ -104,3 +99,39 @@ Then("pegawai memverifikasi data produk berhasil diperbarui", () => {
   cy.get("#searchInput").clear().type("Celana Panjang Hitam").type("{enter}");
   cy.contains("Celana Panjang Hitam").should("be.visible");
 });
+
+// ─── EQP & BVA: Validasi Input Harga (Pegawai) ──────────────────────────
+
+When("pegawai mengisi form produk dengan harga {string}", (harga) => {
+  cy.get('input[name="nama_produk"]')
+    .clear()
+    .type("Celana Testing Harga " + harga);
+  cy.get('input[name="stok"]').clear().type("30");
+  cy.get('textarea[name="deskripsi"]')
+    .clear()
+    .type("Testing BVA dan EQP harga oleh pegawai.");
+  cy.get('input[name="kategori"]').clear().type("Celana");
+
+  cy.get("[data-cy=open-size-modal]").click();
+  cy.get("[data-cy=modal-overlay]").should("be.visible");
+  cy.get("[data-cy=submit-size]").click();
+
+  cy.get("[data-cy=open-color-modal]").click();
+  cy.get("[data-cy=modal-overlay]").should("be.visible");
+  cy.get("[data-cy=btn-submit-color-variation]").click();
+
+  cy.get('input[name="harga"]').clear();
+
+  if (harga.length > 0) {
+    cy.get('input[name="harga"]').type(harga);
+  }
+});
+
+Then("pegawai melihat notifikasi error validasi {string}", (pesanError) => {
+  cy.get('[data-cy="notification-message"]')
+    .should("be.visible")
+    .and("contain.text", pesanError);
+
+  cy.get("#btnDismiss").click({ force: true });
+});
+

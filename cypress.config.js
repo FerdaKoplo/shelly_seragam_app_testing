@@ -8,29 +8,30 @@ const {
 } = require("@badeball/cypress-cucumber-preprocessor/esbuild");
 
 module.exports = defineConfig({
-  projectId: 'ytshye',
+  projectId: "ytshye",
   retries: {
     runMode: 2, // Reruns up to 2 times in 'cypress run'
   },
   e2e: {
-    reporter: 'mochawesome',
+    reporter: "mochawesome",
     reporterOptions: {
-      reportDir: 'cypress/reports',
+      reportDir: "cypress/reports",
       overwrite: false,
       html: true,
       json: true,
     },
     numTestsKeptInMemory: 5,
     experimentalMemoryManagement: true,
-    // baseUrl: "http://127.0.0.1:8000/",
-    baseUrl: "https://shellyseragam.itsfarid.com/",
+    baseUrl: "http://127.0.0.1:8000/",
+    // baseUrl: "https://shellyseragam.itsfarid.com/",
     redirectionLimit: 50,
     setupNodeEvents: async (on, config) => {
-
       // Force Chrome to ignore certain iframe security restrictions during the test session
-      on('before:browser:launch', (browser = {}, launchOptions) => {
-        if (browser.family === 'chromium' && browser.name !== 'electron') {
-          launchOptions.args.push('--disable-features=SameSiteByDefaultCookies,CookiesWithoutSameSiteMustBeSecure');
+      on("before:browser:launch", (browser = {}, launchOptions) => {
+        if (browser.family === "chromium" && browser.name !== "electron") {
+          launchOptions.args.push(
+            "--disable-features=SameSiteByDefaultCookies,CookiesWithoutSameSiteMustBeSecure",
+          );
         }
         return launchOptions;
       });
@@ -44,7 +45,7 @@ module.exports = defineConfig({
 
           const files = fs.readdirSync(downloadsFolder);
 
-          const target = files.find(file => file.endsWith(extension));
+          const target = files.find((file) => file.endsWith(extension));
 
           return target || null;
         },
@@ -62,4 +63,3 @@ module.exports = defineConfig({
     specPattern: "cypress/e2e/**/*.feature",
   },
 });
-
