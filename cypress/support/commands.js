@@ -35,16 +35,6 @@ Cypress.Commands.add('loginAdmin', () => {
   })
 })
 
-// Cypress.Commands.add('loginPegawai', () => {
-//   cy.session("pegawai-session", () => {
-//     cy.visit("/login")
-//     cy.get('#usernameInput').type("budi.santoso")
-//     cy.get('#passwordInput').type("pegawai")
-//     cy.get('#btnLogin').click()
-//     cy.url().should("include", "/admin/manage-transaksi")
-//   })
-// })
-
 Cypress.Commands.add("loginPegawai", () => {
   cy.visit("/login");
   cy.get("#usernameInput").clear().type("budi.santoso");
