@@ -13,7 +13,6 @@ Given("terdapat data pegawai di dalam daftar", () => {
 });
 
 // ─── TC-ADM002-A : Melihat daftar pegawai ────────────────────────────────────
-
 Then("admin dapat melihat tabel daftar pegawai", () => {
   cy.get("table").should("be.visible");
   cy.get("thead").contains("Nama").should("be.visible");
@@ -21,10 +20,7 @@ Then("admin dapat melihat tabel daftar pegawai", () => {
   cy.get("thead").contains("Status").should("be.visible");
 });
 
-
-
 // ─── TC-ADM002-B : Tambah pegawai ────────────────────────────────────────────
-
 When("admin membuka form tambah pegawai", () => {
   cy.contains("Tambah Pegawai").click();
   cy.get('input[name="nama"]').should("be.visible");
@@ -91,7 +87,6 @@ Then("tabel hanya menampilkan pegawai dengan status {string}", (status) => {
 });
 
 // ─── TC-ADM002-C : Update data pegawai ───────────────────────────────────────
-
 When("admin mengklik tombol edit pada pegawai pertama", () => {
   cy.get("tbody tr").first().contains("Edit").click();
   cy.get('input[name="nama"]').should("be.visible");
@@ -122,7 +117,6 @@ Then("status pegawai berhasil diperbarui", () => {
 });
 
 // ─── TC-ADM002-E : Hapus pegawai ─────────────────────────────────────────────
-
 When("admin mengklik tombol hapus pada pegawai pertama", () => {
   cy.get("tbody tr")
     .first()
@@ -141,4 +135,9 @@ Then("pegawai berhasil dihapus dari daftar", () => {
   cy.url().should("include", "/admin/manage-pegawai");
   cy.get('[data-cy=table-pgw-not-found]').should("be.visible");
   // cy.get('[data-cy=table-pgw-name]').should("not.contain", "temp_pegawai");
+});
+
+// ─── TC-ADM002-B-EQP-01 s.d. BVA-04 : Validasi password ────────────────────
+Then("sistem menampilkan pesan error {string}", (pesan) => {
+  cy.contains(pesan).should("be.visible");
 });
