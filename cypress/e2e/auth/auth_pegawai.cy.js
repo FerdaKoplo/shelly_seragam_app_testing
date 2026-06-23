@@ -41,7 +41,8 @@ Given("user berada di halaman login sebagai pegawai", () => {
 });
 
 Then("pegawai harus tetap di halaman login dengan pesan error", () => {
-  cy.get(".absolute > .font-inter").should("be.visible");
-  cy.get(".absolute > .font-inter").click();
+  cy.verifyNotification("Akun tidak ditemukan atau password salah");
+  // cy.get(".absolute > .font-inter").should("be.visible");
+  // cy.get(".absolute > .font-inter").click();
   cy.url().should("include", "/login");
 });

@@ -3,7 +3,19 @@ import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 let STOCK;
 
 Given("Customer membuka halaman detail produk", () => {
-  cy.visit("/katalog/1");
+  cy.visit("/katalog");
+
+  // wait katalog rendered
+  cy.get('[data-cy=product-item]')
+    .should('have.length.greaterThan', 0);
+
+  // click first available product
+  cy.get('[data-cy=product-item]')
+    .first()
+    .click();
+
+  // verify redirected to detail page
+  cy.url().should('match', /\/katalog\/\d+/);
 
   cy.get('[data-cy=product-detail]').should('exist');
 

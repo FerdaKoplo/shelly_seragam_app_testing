@@ -24,6 +24,7 @@ Feature: TC-ADM003 Management Produk Katalog
   Scenario: Admin mengupdate katalog yang sudah ada
     When admin navigasi ke halaman manage katalog
     Then admin diarahkan ke halaman manage katalog
+    When admin memilih filter status "active"
     When admin mengklik tombol edit pada salah satu produk
     Then admin diarahkan ke halaman edit produk
     When admin mengubah data produk dengan data baru
@@ -35,6 +36,7 @@ Feature: TC-ADM003 Management Produk Katalog
   Scenario: Admin mengarsip katalog yang sudah ada
     When admin navigasi ke halaman manage katalog
     Then admin diarahkan ke halaman manage katalog
+    When admin memilih filter status "active"
     When admin mengklik tombol arsipkan pada salah satu produk
     Then produk tidak muncul lagi di halaman manage katalog
     When admin memilih filter status "archived"
@@ -43,7 +45,8 @@ Feature: TC-ADM003 Management Produk Katalog
   # TC-ADM003-E
   Scenario: Admin melihat katalog yang diarsipkan dan melakukan restore
     When admin navigasi ke halaman manage katalog
-    Then admin diarahkan ke halaman manage katalog
+    When admin diarahkan ke halaman manage katalog
+    When admin memilih filter status "active"
     When admin mengklik tombol arsipkan pada salah satu produk
     Then produk tidak muncul lagi di halaman manage katalog
     When admin memilih filter status "archived"

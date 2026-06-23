@@ -53,10 +53,10 @@ Feature: TC-ADM002 Management Data Pegawai (Admin)
     And admin mengklik tombol simpan
     Then status pegawai berhasil diperbarui
 
-  # TC-ADM002-E: Hapus pegawai (Target: temp_pegawai)
+  # TC-ADM002-E: Hapus pegawai (Target: ahmad.fauzi)
   Scenario: Admin berhasil menghapus akun pegawai
     Given admin sudah login dan berada di halaman manage pegawai
-    When admin mengisi kolom pencarian dengan kata kunci "temp_pegawai"
+    When admin mengisi kolom pencarian dengan kata kunci "Dewi Kusuma"
     And admin menekan tombol filter
     When admin mengklik tombol hapus pada pegawai pertama
     And admin mengkonfirmasi penghapusan

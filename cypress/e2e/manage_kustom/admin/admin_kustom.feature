@@ -12,9 +12,18 @@ Feature: Manajemen Produk Kustomisasi Admin
     Given Admin sudah login
     When Admin membuka halaman produk kustomisasi
     And Admin klik tombol tambah
+    And Admin menambahkan section baru "Bundle Jas"
     And Admin menambahkan aspek utama
     And Admin menyimpan data
     Then Data produk kustomisasi berhasil ditambahkan
+
+      # TC-ADM004-B1
+  Scenario: Admin menambahkan produk kustomisasi yang sudah ada
+    Given Admin sudah login
+    When Admin membuka halaman produk kustomisasi
+    And Admin klik tombol tambah
+    And Admin menambahkan section baru "Bundle"
+    Then muncul peringatan section "Bundle" sudah ditambahkan
 
     # TC-ADM004-C
   Scenario: Admin mengedit produk kustomisasi
@@ -32,3 +41,11 @@ Feature: Manajemen Produk Kustomisasi Admin
     And Admin klik tombol hapus pada salah satu item
     And Admin mengkonfirmasi penghapusan
     Then Data berhasil dihapus
+
+# TC-ADM004-E
+  Scenario: Admin menghapus produk kustomisasi yang memiliki transaksi aktif
+    Given Admin sudah login
+    When Admin membuka halaman produk kustomisasi
+    And Admin klik tombol hapus pada salah satu item
+    And Admin mengkonfirmasi penghapusan
+    Then muncul peringatan aspek tidak bisa dihapus

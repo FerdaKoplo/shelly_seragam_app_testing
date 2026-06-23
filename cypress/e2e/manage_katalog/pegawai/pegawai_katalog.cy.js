@@ -45,6 +45,15 @@ When("pegawai mengisi form produk baru dengan data valid", () => {
   cy.get('input[name="stok"]').type("30");
   cy.get('textarea[name="deskripsi"]').type("Celana formal pria bahan premium.");
   cy.get('input[name="kategori"]').type("Celana");
+
+  // add size variation
+  cy.get('[data-cy=open-size-modal]').click();
+  cy.get('[data-cy=modal-overlay]').should('be.visible');
+  cy.get('[data-cy=submit-size]').click();
+
+  cy.get('[data-cy=open-color-modal]').click();
+  cy.get('[data-cy=modal-overlay]').should('be.visible');
+  cy.get('[data-cy=btn-submit-color-variation]').click();
 });
 
 When("pegawai mengklik tombol simpan produk", () => {
@@ -64,7 +73,6 @@ Then("produk baru muncul di halaman katalog", () => {
 // ─── Update Produk ─────────────────────────────────────
 
 When("pegawai mengklik tombol edit pada produk", () => {
-  cy.get("#searchInput").clear().type("Celana").type("{enter}");
   cy.get('[data-cy="produk-card"]')
     .contains("Celana")
     .parents('[data-cy="produk-card"]')

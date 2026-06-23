@@ -40,7 +40,6 @@ When ("user klik tombol login", ()=>{
     cy.get('.bg-neutral').click()
 });
 Then ("user harus tetap di halaman login", ()=>{
-    cy.get('.absolute > .font-inter').should('be.visible')
-    cy.get('.absolute > .font-inter').click();
+    cy.verifyNotification("Akun tidak ditemukan atau password salah");
     cy.url().should("include", "/login");
 });
