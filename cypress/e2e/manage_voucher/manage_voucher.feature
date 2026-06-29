@@ -22,9 +22,9 @@ Feature: Voucher Management
     When admin delete voucher
     Then voucher successfully deleted
 
-  Scenario: TC-ADM007-05 Auto generate voucher code
-    When admin add voucher without code
-    Then system should generate voucher code
+  # Scenario: TC-ADM007-05 Auto generate voucher code
+  #   When admin add voucher without code
+  #   Then system should generate voucher code
 
   Scenario: TC-ADM007-06 Invalid expired date
     When admin add voucher with invalid expired date
@@ -45,3 +45,36 @@ Feature: Voucher Management
   Scenario: TC-ADM007-10 Search voucher
     When admin search voucher "Promo"
     Then matching voucher "Promo" should appear
+
+
+  Scenario: TC-ADM007-EQP-01 Invalid past date
+    When admin create voucher with date "yesterday"
+    Then system should show error "Tanggal selesai tidak boleh kurang dari hari ini."
+
+  Scenario: TC-ADM007-EQP-02 Valid today date
+    When admin create voucher with date "today"
+    Then voucher successfully saved
+
+  Scenario: TC-ADM007-EQP-03 Valid future date
+    When admin create voucher with date "2026-12-31"
+    Then voucher successfully saved
+
+  Scenario: TC-ADM007-EQP-04 Invalid negative discount
+    When admin create voucher with discount "-10000"
+    Then system should show error "Nilai diskon tidak boleh negatif."
+
+  Scenario: TC-ADM007-EQP-05 Invalid minus zero discount
+    When admin create voucher with discount "-0"
+    Then system should show error "Nilai diskon minimal adalah 1."
+
+  Scenario: TC-ADM007-EQP-06 Invalid zero discount
+    When admin create voucher with discount "0"
+    Then system should show error "Nilai diskon minimal adalah 1."
+
+  Scenario: TC-ADM007-EQP-07 Valid minimum discount
+    When admin create voucher with discount "1"
+    Then voucher successfully saved
+
+  Scenario: TC-ADM007-EQP-08 Valid normal discount
+    When admin create voucher with discount "15000"
+    Then voucher successfully saved

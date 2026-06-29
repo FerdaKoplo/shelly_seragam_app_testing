@@ -66,3 +66,60 @@ Feature: TC-ADM003 Management Produk Katalog
     Then halaman katalog menampilkan produk yang diarsipkan
     When admin mengklik tombol hapus pada salah satu produk
     Then produk dihapus permanen dan tidak muncul di halaman manapun
+
+  # TC-ADM003-B-EQP-01
+  Scenario: Admin gagal menambah katalog dengan harga di bawah batas minimum (< 10.000)
+    When admin navigasi ke halaman manage katalog
+    When admin mengklik tombol tambahkan produk baru
+    When admin mengisi form produk dengan harga "9999"
+    And admin menambahkan variasi ukuran
+    And admin mengklik tombol tambahkan produk
+    Then admin melihat notifikasi error validasi "Harga minimal adalah Rp 10.000"
+
+  # TC-ADM003-B-EQP-02
+  Scenario: Admin berhasil menambah katalog dengan harga di batas bawah (= 10.000)
+    When admin navigasi ke halaman manage katalog
+    When admin mengklik tombol tambahkan produk baru
+    When admin mengisi form produk dengan harga "10000"
+    And admin menambahkan variasi ukuran
+    And admin mengklik tombol tambahkan produk
+    Then admin melihat pop up produk katalog berhasil ditambahkan
+
+  # TC-ADM003-B-EQP-03
+  Scenario: Admin berhasil menambah katalog dengan harga normal (10.000 - 5.000.000)
+    When admin navigasi ke halaman manage katalog
+    When admin mengklik tombol tambahkan produk baru
+    When admin mengisi form produk dengan harga "150000"
+    And admin menambahkan variasi ukuran
+    And admin mengklik tombol tambahkan produk
+    Then admin melihat pop up produk katalog berhasil ditambahkan
+
+  # TC-ADM003-B-EQP-04
+  Scenario: Admin berhasil menambah katalog dengan harga di batas atas (= 5.000.000)
+    When admin navigasi ke halaman manage katalog
+    When admin mengklik tombol tambahkan produk baru
+    When admin mengisi form produk dengan harga "5000000"
+    And admin menambahkan variasi ukuran
+    And admin mengklik tombol tambahkan produk
+    Then admin melihat pop up produk katalog berhasil ditambahkan
+
+  # TC-ADM003-B-EQP-05
+  Scenario: Admin gagal menambah katalog dengan harga di atas batas maksimal (> 5.000.000)
+    When admin navigasi ke halaman manage katalog
+    When admin mengklik tombol tambahkan produk baru
+    When admin mengisi form produk dengan harga "5000001"
+    And admin menambahkan variasi ukuran
+    And admin mengklik tombol tambahkan produk
+    Then admin melihat notifikasi error validasi "Harga maksimal adalah Rp 5.000.000"
+
+  # TC-ADM003-B-EQP-06
+  Scenario: Admin gagal menambah katalog dengan harga negatif
+    When admin navigasi ke halaman manage katalog
+    When admin mengklik tombol tambahkan produk baru
+    When admin mengisi form produk dengan harga "-10000"
+    And admin menambahkan variasi ukuran
+    And admin mengklik tombol tambahkan produk
+    Then admin melihat notifikasi error validasi "Harga minimal adalah Rp 10.000"
+
+
+

@@ -29,3 +29,51 @@ Feature: TC-PGW002 Management Produk Katalog Pegawai
     When pegawai mengubah data produk
     And pegawai mengklik tombol simpan perubahan
     Then pegawai memverifikasi data produk berhasil diperbarui
+
+  # TC-PGW002-B-EQP-01
+  Scenario: Pegawai gagal menambah katalog dengan harga di bawah batas minimum (< 10.000)
+    When pegawai navigasi ke halaman katalog
+    When pegawai mengklik tombol buat item baru
+    When pegawai mengisi form produk dengan harga "9999"
+    And pegawai mengklik tombol simpan produk
+    Then pegawai melihat notifikasi error validasi "Harga minimal adalah Rp 10.000"
+
+  # TC-PGW002-B-EQP-02
+  Scenario: Pegawai berhasil menambah katalog dengan harga di batas bawah (= 10.000)
+    When pegawai navigasi ke halaman katalog
+    When pegawai mengklik tombol buat item baru
+    When pegawai mengisi form produk dengan harga "10000"
+    And pegawai mengklik tombol simpan produk
+    Then pegawai melihat notifikasi produk berhasil ditambahkan
+
+  # TC-PGW002-B-EQP-03
+  Scenario: Pegawai berhasil menambah katalog dengan harga normal (10.000 - 5.000.000)
+    When pegawai navigasi ke halaman katalog
+    When pegawai mengklik tombol buat item baru
+    When pegawai mengisi form produk dengan harga "150000"
+    And pegawai mengklik tombol simpan produk
+    Then pegawai melihat notifikasi produk berhasil ditambahkan
+
+  # TC-PGW002-B-EQP-04
+  Scenario: Pegawai berhasil menambah katalog dengan harga di batas atas (= 5.000.000)
+    When pegawai navigasi ke halaman katalog
+    When pegawai mengklik tombol buat item baru
+    When pegawai mengisi form produk dengan harga "5000000"
+    And pegawai mengklik tombol simpan produk
+    Then pegawai melihat notifikasi produk berhasil ditambahkan
+
+  # TC-PGW002-B-EQP-05
+  Scenario: Pegawai gagal menambah katalog dengan harga di atas batas maksimal (> 5.000.000)
+    When pegawai navigasi ke halaman katalog
+    When pegawai mengklik tombol buat item baru
+    When pegawai mengisi form produk dengan harga "5000001"
+    And pegawai mengklik tombol simpan produk
+    Then pegawai melihat notifikasi error validasi "Harga maksimal adalah Rp 5.000.000"
+
+  # TC-PGW002-B-EQP-06
+  Scenario: Pegawai gagal menambah katalog dengan harga negatif
+    When pegawai navigasi ke halaman katalog
+    When pegawai mengklik tombol buat item baru
+    When pegawai mengisi form produk dengan harga "-10000"
+    And pegawai mengklik tombol simpan produk
+    Then pegawai melihat notifikasi error validasi "Harga minimal adalah Rp 10.000"
