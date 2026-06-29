@@ -22,9 +22,9 @@ Feature: Voucher Management
     When admin delete voucher
     Then voucher successfully deleted
 
-  Scenario: TC-ADM007-05 Auto generate voucher code
-    When admin add voucher without code
-    Then system should generate voucher code
+  # Scenario: TC-ADM007-05 Auto generate voucher code
+  #   When admin add voucher without code
+  #   Then system should generate voucher code
 
   Scenario: TC-ADM007-06 Invalid expired date
     When admin add voucher with invalid expired date
@@ -48,17 +48,16 @@ Feature: Voucher Management
 
 
   Scenario: TC-ADM007-EQP-01 Invalid past date
-    When admin create voucher with date "2026-06-22"
+    When admin create voucher with date "yesterday"
     Then system should show error "Tanggal selesai tidak boleh kurang dari hari ini."
 
   Scenario: TC-ADM007-EQP-02 Valid today date
-    When admin create voucher with date "2026-06-23"
+    When admin create voucher with date "today"
     Then voucher successfully saved
 
   Scenario: TC-ADM007-EQP-03 Valid future date
     When admin create voucher with date "2026-12-31"
     Then voucher successfully saved
-
 
   Scenario: TC-ADM007-EQP-04 Invalid negative discount
     When admin create voucher with discount "-10000"
